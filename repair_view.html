@@ -14,26 +14,10 @@
         <!--NAVIGATION BAR-->
 
         <nav class="navpadding navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand text-primary" href="#">Mature Motherboards</a>
+            <a class="navbar-brand text-primary" href="#">Mature Motherboards - Staff</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">shop <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Repair</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
-                </li>
-              </ul>
-            </div>
           </nav>
 
         <!--JUMBOTRON-->
@@ -47,52 +31,89 @@
 
     <section>
 
-        <!--FILER SHOP-->
-
-        <form class="form-inline">
-            <div class="form-group mb-2">
-                <label for="productType" class="sr-only">Product type</label>
-                <select class="form-control" id="productType">
-                  <option>Product Type</option>
-                  <option>Computers</option>
-                  <option>User Guides</option>
-                  <option>Upgrade Kits</option>
-                  <option>Peripherals</option>
-                </select>
-            </div>
-            
-            <div class="form-group mx-sm-3 mb-2">
-                <label for="orderBy" class="sr-only">Order By</label>
-                <select class="form-control" id="sortBy">
-                  <option>Order By</option>
-                  <option>Price - Low to High</option>
-                  <option>Price - High to Low</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary mb-2">Filter</button>
-          </form>
-
-    </section>
-
-    <section>
-
-        <!--PRODUCT CARDS-->
+        <!--SALES DISPLAY-->
 
         <div class="container-fluid mt-3">
             <div class="row">
+                <div class="col">
+                  <h3>Shifts</h3>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Customer Number</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
 
-                <div class="card" style="width: 22rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                      <h5 class="card-title">Product</h5>
-                      <h6 class="card-subtitle mb-2 text-muted">Price</h6>
-                      <p class="card-text">Description goes here!</p>
-                      <a href="#" class="btn btn-primary">Add to Basket</a>
-                    </div>
+            <div class="row mt-3">
+                <div class="col">
+                  <h3>Shifts</h3>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time Start</th>
+                        <th scope="col">Time End</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
 
-            <div class="row justify-content-md mx-5 mt-4" id="product">
+                <div class="col">
+                  <div class="card" style="width: 40.5rem;">
+                    <div class="card-body">
+                      <h3>Schedule Repairs</h3>
+                      <form>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="custNum" placeholder="Customer Number">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="productNumber" placeholder="Product Number">
+                        </div>
+                        <div class="form-group">
+                          <input type="date" class="form-control" id="date" placeholder="Date">
+                        </div>
+                        <div class="form-group">
+                          <input type="time" class="form-control" id="time" placeholder="Time">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="duration" placeholder="Duration">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="description" placeholder="Description">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
 
     </section>
