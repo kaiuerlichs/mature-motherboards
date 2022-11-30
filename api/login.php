@@ -5,6 +5,7 @@
     $db->connect();
 
     session_start();
+    header('Content-Type: application/json; charset=utf-8');
 
     if(!isset($_SESSION["loggedIn"])){
         // Log user in
@@ -17,7 +18,6 @@
                     // Correct password
                     $_SESSION["email"] = $email;
                     $_SESSION["loggedIn"] = true;
-                    // $_SESSION["userType"] = $db->GetEmployeeRole($email);
 
                     echo json_encode(array(
                         "message" => "Login successful",
@@ -26,7 +26,6 @@
                     ));
                 }
                 else{
-                    header('Content-Type: application/json; charset=utf-8');
                     // Incorrect password
                     echo json_encode(array(
                         "error" => "Password incorrect",
@@ -35,7 +34,6 @@
                 }
             }
             catch(InvalidArgumentException $e) {
-                header('Content-Type: application/json; charset=utf-8');
                 echo json_encode(array(
                     "error" => "No user with specified email",
                     "code"=> 103
@@ -46,7 +44,6 @@
 
         // Missing parameters
         else{
-            header('Content-Type: application/json; charset=utf-8');
             echo json_encode(array(
                 "error" => "Missing email or password",
                 "code" => 102
@@ -54,7 +51,6 @@
         }
     }
     else{
-        header('Content-Type: application/json; charset=utf-8');
         // User already logged in
         echo json_encode(array(
             "error" => "Already logged in",
