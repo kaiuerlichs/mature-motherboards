@@ -6,3 +6,14 @@ section {
     padding-left: 80px;
     padding-right: 80px;
 }
+
+.jumbotron-image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 40%;
+  }
+
+  h1 {
+    font-size: 100px;
+  }
