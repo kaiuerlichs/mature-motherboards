@@ -10,10 +10,10 @@ header('Content-Type: application/json; charset=utf-8');
 
 
 try{
-    if(!isset($_Session["loggedIn"]){
+    if(!isset($_Session["loggedIn"])){
         throw new Exception("Not logged in");
     }
-    if(!isset($_Get["id"]){
+    if(!isset($_Get["id"])){
         throw new Exception("Not employee ID given");
     }
     $shift = $db->getShiftByID($_GET["id"]);
