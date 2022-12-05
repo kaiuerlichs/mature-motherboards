@@ -399,7 +399,7 @@ class Database
             FROM employee e
             JOIN `employee works shift` l on e.EmployeeID = l.EmployeeID
             JOIN shift s on l.ShiftID
-            WHERE l.EmployeeID = :emplID");
+            WHERE e.EmployeeID = :emplID");
             $q->bindParam(":emplID", $employeeID);
             if (!$q->execute()) {
                 throw new PDOException();
