@@ -16,10 +16,10 @@ try{
     if(!isset($_Get["id"]){
         throw new Exception("Not employee ID given");
     }
-    $item = $db->getShiftByID($_GET["id"]);
+    $shift = $db->getShiftByID($_GET["id"]);
 
     // Order created successfully
-    echo json_encode($item);
+    echo json_encode($shift);
 }
 catch(PDOException $e){
     // Processing errors
