@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "./Database.php");
+require_once(__DIR__ . "/Database.php");
 
 $db = new Database();
 $db->connect();
@@ -17,14 +17,27 @@ if (!isset($_SESSION["loggedIn"])) {
 
         try {
             if ($db->GetPasswordHash($email) == $password) {
+                $role = $db->GetEmployeeRole($email);
+
                 // Correct password
                 $_SESSION["email"] = $email;
                 $_SESSION["loggedIn"] = true;
+                $_SESSION["permissions"] = $role;
+
+                $redirect = "";
+
+                if ($role == 1)
+                    $redirect = "./manager_view.html";
+                elseif ($role == 2)
+                    $redirect = "./repair_view.html";
+                elseif ($role == 3)
+                    $redirect = "./sales_view.html";
 
                 echo json_encode(
                     array(
                         "message" => "Login successful",
                         "user" => $email,
+                        "redirectUrl" => $redirect,
                         "code" => 101
                     )
                 );
