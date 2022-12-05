@@ -1,15 +1,16 @@
 
 var cart = { 'First Product': [ "Description of first product", "1.11"], 
                   'Second Product': [ "Description of second product", "2.22"], 
-                  'Third Product': [ "Description of third product", "3.33"] };
+                  'Third Product': [ "Description of third product", "3.33"] }; //Replace with SQL Query of IDs from Cart
 
 // Put the object into storage
+//Cart = {"1" : 1}
 localStorage.setItem('cart', JSON.stringify(cart));
 
 // Retrieve the object from storage
 var retrievedObject = JSON.parse(localStorage.getItem('cart'));
 
-
+document.getElementById("same-address").checked = false;
 var totalAmount = 0;
 var totalNumber = 0;
 
@@ -24,7 +25,6 @@ function initializeCart(){
         console.log(event.target.id);
         let id = event.target.id.replace("~", '');
         let amount = document.getElementById("£"+id).textContent.replace("£", "");
-        totalNumber--;
         totalAmount =  Math.round((totalAmount - Number(amount)) * 100) / 100    
         document.getElementById("total").textContent = "£" + totalAmount;
         spanNumber.textContent = totalNumber;
@@ -99,6 +99,12 @@ function checkBoxShipping() {
   
     // If the checkbox is checked, display the output text
     if (checkBox.checked == true){
+      document.getElementById("firstNameShipping").value = document.getElementById("firstName").value;
+      document.getElementById("lastNameShipping").value = document.getElementById("lastName").value;
+      document.getElementById("addressShipping").value = document.getElementById("address").value;
+      document.getElementById("address2Shipping").value = document.getElementById("address2").value;
+      document.getElementById("countryShipping").value = document.getElementById("country").value;
+      document.getElementById("zipShipping").value = document.getElementById("zip").value;
       section.style.display = "none";
       hr.style.display = "none";
     } else {
