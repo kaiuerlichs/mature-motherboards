@@ -11,21 +11,14 @@
 <body>
     <header>
 
-      <!--NAVIGATION BAR-->
-
-      <nav class="navpadding navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand text-primary" href="#">Orders</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </nav>
-
       <!--JUMBOTRON-->
         
       <div class="jumbotron jumbotron-fluid jumbotron-image" style="background-image: url(images/goldMotherboard.jpeg);">
         <h1 class="text-center text-white fs-1 fw-bold">Your Order</h1>
     </div>
     </header>
+
+    <section>
 
     <!--ORDER INFORMATION-->
 
@@ -43,11 +36,11 @@
     <section>
         <div>
             <div class="container-fluid mt-3">
-                <img class="card-img-top" src="..." alt="Card image cap"> 
+                <img class="card-img-top" src="..." id="productImage" alt="Product Image"> 
                 <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title" id="name">Product: </h5>
+                <p class="card-text" id="description">Description: </p>
+                <p class="card-text" id="price">Price: </a>
                 </div>
             </div>
         </div>
@@ -55,7 +48,7 @@
     </section>
 
 </body>
-
+<script src="assets/js/order.js"></script>
 <script>
     //call main when website loads
     window.onload = function() {
@@ -73,19 +66,19 @@
     function main() {
   
       let webURL = window.location.href
-      let searchOrder = webURL.split('?');
-  
-      //To get the imdbID information from the API
-      url = "https://www.omdbapi.com/?apikey=dde79752&"; // +id?
   
       fetch(url)
         .then((resp) => resp.json())
-        .then(function(data) {
-          console.log(data);
+        .then(function(value) {
+          console.log(value);
   
-          //Gets data from the API and writes it to the HTML
-          document.getElementById('address').innerHTML = data.address;
-          document.getElementById('dateOrdered').innerHTML = data.dateOrdered;
+          //Gets value from the API and writes it to the HTML
+          document.getElementById('address').innerHTML = "Address: " + value.address;
+          document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + value.dateOrdered;
+          document.getElementById('productImage').src = value.address;
+          document.getElementById('name').innerHTML = value.dateOrdered;
+          document.getElementById('description').innerHTML = value.address;
+          document.getElementById('price').innerHTML = value.price;
         })
         .catch(function(error) {
           console.log(error);
