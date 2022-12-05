@@ -34,7 +34,35 @@ class Mailer
 
         //send the message, check for errors
         if (!$mail->send()) {
-            error_log("Error sending email");
+            error_log("Error sending email.");
+        }
+    }
+
+    public static function sendRepairConfirmation($firstname, $lastname, $email, $repairID)
+    {
+        $mail = Mailer::getMailer();
+        
+        //Set who the message is to be sent to
+        $mail->addAddress($email);
+
+        //Set the subject line
+        $mail->Subject = "Your Repair Confirmation: #" . $repairID;
+
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $html = file_get_contents(__DIR__ . '/repairConfirmation/index.html');
+        $html = str_replace("!!FIRSTNAME", $firstname, $html);
+        $html = str_replace("!!LASTNAME", $lastname, $html);
+        $html = str_replace("!!REPAIRNUM", $repairID, $html);
+        $html = str_replace("!!REPAIRURL", "https://google.com", $html);
+        $mail->msgHTML($html, __DIR__ . "/repairConfirmation");
+
+        //Replace the plain text body with one created manually
+        $mail->AltBody = 'This is your order confirmation for Order #' . $repairID;
+
+        //send the message, check for errors
+        if (!$mail->send()) {
+            error_log("Error sending email.");
         }
     }
 

@@ -31,6 +31,8 @@ try{
         "ordID" => $scheduleID,
         "code" => 300
     ));
+
+    Mailer::sendRepairConfirmation($_POST["firstname"], $_POST["lastname"], $_POST["Email"], $scheduleID);
 }
 catch(PDOException $e){
     // Processing errors
