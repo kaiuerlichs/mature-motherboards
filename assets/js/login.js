@@ -1,32 +1,35 @@
 function login() {
-    {
-        let emailValue = document.getElementById("email").value
-        let passwordValue = document.getElementById("password").value
+    let spinner = document.getElementById("spinner")
+    spinner.classList.add("fa-spin")
 
-        const data = {
-            email: emailValue,
-            password: passwordValue
-        };
+    let emailValue = document.getElementById("email").value
+    let passwordValue = document.getElementById("password").value
 
-        fetch('api/login.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
+    const data = {
+        email: emailValue,
+        password: passwordValue
+    };
+
+    fetch('./api/login.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            spinner.classList.remove("fa-spin")
+            if (data.code == 101) {
+                console.log(data["redirectUrl"])
+                window.location.href = data.redirectUrl;
+            } else {
+                document.getElementById("errorText").innerHTML = data.error;
+            }
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.code == 101) {
-                    window.location.href = data.redirectURL;
-                } else {
-                    document.getElementById("errorText").innerHTML = data.error;
-                }
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                document.getElementById("errorText").innerHTML = "Error when POSTing";
-                console.error('Error:', error);
-            });
-    }
+        .catch((error) => {
+            spinner.classList.remove("fa-spin")
+            document.getElementById("errorText").innerHTML = "Error when logging in.";
+        });
+
 }
