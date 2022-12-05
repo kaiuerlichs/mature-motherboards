@@ -1,5 +1,6 @@
 <?php
 require_once("../Database.php");
+require_once("../libraries/mailing/Mailer.php");
 
 $db = new Database();
 $db->connect();
@@ -7,8 +8,6 @@ $db->connect();
 header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
-
-$orderDetails = [];
 
 $topLevelKeys = ["orderDetails", "addressDetails", "cardDetails", "products"];
 $orderKeys = ["firstname", "lastname", "email"];
@@ -68,6 +67,8 @@ try{
         "ordID" => $orderNumber,
         "code" => 300
     ));
+
+    Mailer::sendOrderConfirmation($_POST["orderDetails"]["firstname"], $_POST["orderDetails"]["lastname"], $_POST["orderDetails"]["email"], $orderNumber);
 }
 catch(PDOException $e){
     // Processing errors
