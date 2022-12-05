@@ -43,13 +43,10 @@ class Database
 
     function GetPasswordHash($emailIn)
     {
-        $this->connection->beginTransaction();
         $q = $this->connection->prepare("CALL GetPasswordHash(:emailIn)");
         $q->bindParam(":emailIn", $emailIn);
 
         $q->execute();
-
-        $this->connection->commit();
 
         foreach ($q->fetchAll() as $result) {
             return $result["password"];
@@ -60,16 +57,13 @@ class Database
 
     function GetEmployeeRole($emailIn)
     {
-        $this->connection->beginTransaction();
         $q = $this->connection->prepare("CALL GetEmployeeRole(:emailIn)");
         $q->bindParam(":emailIn", $emailIn);
 
         $q->execute();
 
-        $this->connection->commit();
-
         foreach ($q->fetchAll() as $result) {
-            return $result["roleID"];
+            return $result["RoleID"];
         }
 
         throw new InvalidArgumentException("Invalid email.");
