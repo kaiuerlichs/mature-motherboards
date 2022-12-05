@@ -425,6 +425,42 @@ class Database
         }
         return $iteminfo;
     }
+    
+    function addProduct($productinfo){
+
+        
+       
+        // Create Order
+        try {
+            $q = $this->connection->prepare("INSERT INTO `product` (Name, Desc, Type, Price, Stock, Image, ProductionDate, Architecture, OperatingSystem, PageCount) VALUES (:name, :desc, :type, :price, :stock, :img, :date, :arch, :os, :pgCount);");
+            
+            $q->bindParam(":name", $productinfo["Name"]);
+            $q->bindParam(":desc", $productinfo["Desc"]);
+            $q->bindParam(":addrID", $productinfo["Type"]);
+            $q->bindParam(":stock", $productinfo["Stock"]);
+            $q->bindParam(":img", $productinfo["Image"]);
+            $q->bindParam(":price", $productinfo["Price"]);
+            $q->bindParam(":date", $productinfo["ProductionDate"]);
+            $q->bindParam(":arch", $productinfo["Architecture"]);
+            $q->bindParam(":os", $productinfo["OperatingSystem"]);
+            $q->bindParam(":pgcount", $productinfo["PageCount"]);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            // Query for new order ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $prodRef = $result["id"];
+            }
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating order.", 3);
+        }
+
+        return $prodRef;
+    }
 
 
 }
