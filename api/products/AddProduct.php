@@ -12,7 +12,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-if ($_SESSION['permission'] != 0){
+if ($_SESSION['permission'] != 1){
     //not a manager
     echo json_encode(array(
         "error" => "Not logged in as a manager",
