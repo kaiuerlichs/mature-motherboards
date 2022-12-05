@@ -384,4 +384,41 @@ class Database
         return $scheduleID;
     }
 
+    function getShiftsByID($employeeID)
+    {
+
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        // Get item information
+        try {
+            $q = $this->connection->prepare("SELECT e.EmployeeID, s.Start, s.End
+            FROM employee e
+            JOIN `employee works shift` l on e.EmployeeID = l.EmployeeID
+            JOIN shift s on l.ShiftID
+            WHERE l.EmployeeID = :emplID");
+            $q->bindParam(":emplID", $employeeID);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $iteminfo = $q->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating order.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $iteminfo;
+    }
+
+
 }
