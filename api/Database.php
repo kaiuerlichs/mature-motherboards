@@ -55,15 +55,15 @@ class Database
         throw new InvalidArgumentException("Invalid email.");
     }
 
-    function GetEmployeeRole($emailIn)
+    function GetEmployeeData($emailIn)
     {
-        $q = $this->connection->prepare("CALL GetEmployeeRole(:emailIn)");
+        $q = $this->connection->prepare("SELECT RoleID, EmployeeID FROM employee WHERE Email = :emailIn");
         $q->bindParam(":emailIn", $emailIn);
 
         $q->execute();
 
         foreach ($q->fetchAll() as $result) {
-            return $result["RoleID"];
+            return [$result["RoleID"], $result["EmployeeID"]];
         }
 
         throw new InvalidArgumentException("Invalid email.");
