@@ -10,12 +10,7 @@ var products = { 'First Product': [ "Description of first product", "1.11", "1"]
 var cart = {};
 var source = "https://picsum.photos/1200/400";
 
-try{
-    cart = JSON.parse(localStorage.getItem('cart'))
-}catch(error){
-   console.log(error);
-   
-}
+
 var cards = document.getElementById("containerCards");
 
 displayProducts();
@@ -23,23 +18,7 @@ displayProducts();
 function displayProducts(){
 
     var onClick = (event) => {
-        let alreadyInCart = false;
-        for(let id in cart){
-            if(id == event.target.id){
-                cart[id] = cart[id]+1;
-                alreadyInCart = true;
-                console.log(cart[id]);
-                break;
-            }
-        }
-        if(!alreadyInCart){
-            if(cart == null){
-                cart = {}; //ID of target
-            }
-            cart = Object.assign(cart, {[event.target.id] : 1});
-            
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
+        window.location.href = 'product.html?'+event.target.id;
     }
 
     for(var key in products) {
@@ -74,7 +53,7 @@ function displayProducts(){
         let intoCart = document.createElement("a");
         intoCart.setAttribute('id', products[key][2]);
         intoCart.classList.add("btn", "btn-primary", "mt-auto");
-        intoCart.innerText = "Add to cart"
+        intoCart.innerText = "Go to product"
         intoCart.addEventListener('click', onClick);
         
         div2.appendChild(title);
