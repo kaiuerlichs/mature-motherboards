@@ -429,9 +429,10 @@ class Database
         //Create shift
         try {
             //Prepare statement to insert shift into employee works shift
-            $q = $this->connection->prepare("INSERT INTO shift (Start, End) VALUES (:start, :end);");
+            $q = $this->connection->prepare("INSERT INTO shift (Start, End, EmployeeID) VALUES (:start, :end, :employeeid);");
             $q->bindParam(":start", $shiftDetails["Start"]);
             $q->bindParam(":end", $shiftDetails["End"]);
+            $q->bindParam(":employeeid", $employeeID["EmployeeID"]);
 
             if (!$q->execute()) {
                 throw new PDOException();
@@ -446,29 +447,12 @@ class Database
             $this->connection->rollBack();
             throw new PDOException("Error creating shift.", 2);
         }
-        //Set employee works shift
-        try {
-            //Prepare statement to insert shift into employee works shift
-            $q = $this->connection->prepare("INSERT INTO `employee works shift` (EmployeeID, ShiftID) VALUES (:employeeID, :shiftID);");
-            $q->bindParam(":employeeID", $employeeID["EmployeeID"]);
-            $q->bindParam(":shiftID", $shiftID);
-
-            if (!$q->execute()) {
-                throw new PDOException();
-            }
-
             //Commit transaction
             if (!$this->connection->commit()) {
                 error_log("Error committing transaction.");
                 $this->connection->rollBack();
                 throw new PDOException("Error committing transaction.", 3);
             }
-        } catch(PDOException $e) {
-            error_log("Error creating shift.");
-            $this->connection->rollBack();
-            throw new PDOException("Error creating shift.", 2);
-          
-        }
-        return $shiftID;
+            return $shiftID;
+        } 
     }
-}
