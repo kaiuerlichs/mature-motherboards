@@ -17,10 +17,11 @@ if (!isset($_SESSION["loggedIn"])) {
 
         try {
             if ($db->GetPasswordHash($email) == $password) {
-                $role = $db->GetEmployeeRole($email);
+                [$role, $id] = $db->GetEmployeeData($email);
 
                 // Correct password
                 $_SESSION["email"] = $email;
+                $_SESSION["id"] = $id;
                 $_SESSION["loggedIn"] = true;
                 $_SESSION["permissions"] = $role;
 
