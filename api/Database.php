@@ -35,8 +35,7 @@ class Database
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
-            echo $this->username;
-            echo $this->password;
+            echo "Connection error: " . $e->getMessage();
             die();
         }
     }
@@ -457,5 +456,56 @@ class Database
         return $prodRef;
     }
 
+    function addShift($shiftDetails, $employeeID) {
+        //Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
 
+        //Create shift
+        try {
+            //Prepare statement to insert shift into employee works shift
+            $q = $this->connection->prepare("INSERT INTO shift (Start, End) VALUES (:start, :end);");
+            $q->bindParam(":start", $shiftDetails["Start"]);
+            $q->bindParam(":end", $shiftDetails["End"]);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            //Query for new shift ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $shiftID = $result["id"];
+            }
+        } catch(PDOException $e) {
+            error_log("Error creating shift.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating shift.", 2);
+        }
+        //Set employee works shift
+        try {
+            //Prepare statement to insert shift into employee works shift
+            $q = $this->connection->prepare("INSERT INTO `employee works shift` (EmployeeID, ShiftID) VALUES (:employeeID, :shiftID);");
+            $q->bindParam(":employeeID", $employeeID["EmployeeID"]);
+            $q->bindParam(":shiftID", $shiftID);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            //Commit transaction
+            if (!$this->connection->commit()) {
+                error_log("Error committing transaction.");
+                $this->connection->rollBack();
+                throw new PDOException("Error committing transaction.", 3);
+            }
+        } catch(PDOException $e) {
+            error_log("Error creating shift.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating shift.", 2);
+          
+        }
+        return $shiftID;
+    }
 }
