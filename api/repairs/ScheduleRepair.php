@@ -1,5 +1,6 @@
 <?php
 require_once("../Database.php");
+require_once("../libraries/mailing/Mailer.php");
 
 $db = new Database();
 $db->connect();
@@ -8,10 +9,10 @@ header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-//format of post request branchId, Time, Duration, Description, Email, firstname, lastname
+$keys = ["branchId", "Time", "Duration", "Description", "Email", "firstname", "lastname"];
 
-foreach ($_POST as $element) {
-    if(!isset($element)){
+foreach ($keys as $element) {
+    if(!isset($_POST[$element])){
         // Missing keys
         echo json_encode(array(
             "error" => "Missing keys.",

@@ -41,7 +41,7 @@ class Mailer
     public static function sendRepairConfirmation($firstname, $lastname, $email, $repairID)
     {
         $mail = Mailer::getMailer();
-        
+
         //Set who the message is to be sent to
         $mail->addAddress($email);
 

@@ -350,10 +350,11 @@ class Database
 
         // Create repair slot
         try {
+            $ts = date("Y-m-d H:i:s", strtotime($scheduleDetails["Time"]));
             // Prepare statement to insert repair into db
             $q = $this->connection->prepare("INSERT INTO repairs (BranchID, Time, Duration, Description, Email, FirstName, LastName, DatePlaced) VALUES (:branchid, :time, :duration, :description, :email, :firstname, :lastname, CURDATE());");
-            $q->bindParam(":branchid", $scheduleDetails["BranchID"]);
-            $q->bindParam(":time", $scheduleDetails["Time"]);
+            $q->bindParam(":branchid", $scheduleDetails["branchId"]);
+            $q->bindParam(":time", $ts);
             $q->bindParam(":duration", $scheduleDetails["Duration"]);
             $q->bindParam(":description", $scheduleDetails["Description"]);
             $q->bindParam(":email", $scheduleDetails["Email"]);
@@ -376,6 +377,7 @@ class Database
                 throw new PDOException("Error committing transaction.", 3);
             }
         } catch (PDOException $e) {
+            throw $e;
             error_log("Error creating repair.");
             $this->connection->rollBack();
             throw new PDOException("Error creating repair slot.", 2);
