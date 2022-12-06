@@ -505,7 +505,7 @@ class Database
             $q = $this->connection->prepare("INSERT INTO shift (Start, End, EmployeeID) VALUES (:start, :end, :employeeid);");
             $q->bindParam(":start", $shiftDetails["Start"]);
             $q->bindParam(":end", $shiftDetails["End"]);
-            $q->bindParam(":employeeid", $employeeID["EmployeeID"]);
+            $q->bindParam(":employeeid", $employeeID);
 
             if (!$q->execute()) {
                 throw new PDOException();
