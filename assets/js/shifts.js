@@ -1,4 +1,6 @@
 function main() {
+  let url = "./api/shifts/GetShifts.php"
+
   //clears the container
   document.getElementById('shift').innerHTML = "";
   const shiftContainer = document.getElementById('shift');
@@ -8,21 +10,10 @@ function main() {
   fetch(url)
     .then((resp) => resp.json())
     .then(function(value) {
-      var shift = value.Search;
-      shift.map(function(shift) {
+      document.getElementById("spinner").remove()
 
-        var tr = createNode('tr');
-        var th = createNode('th');
-        var timeStart = createNode('timeStart');
-        var timeEnd = createNode('timeEnd');
-        
-        timeStart.innerHTML = shift.timeStart;
-        timeEnd.innerHTML = shift.timeEnd;
-
-        append(th, tr);
-        append(timeStart, tr);
-        append(timeEnd, tr);
-        append(shiftContainer, tr);
+      value.map(function(shift) {
+        shiftContainer.innerHTML += "<tr><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"
       })
     })
     .catch(function(error) {

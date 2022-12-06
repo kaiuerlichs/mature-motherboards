@@ -5,6 +5,8 @@ $db = new Database();
 $db->connect();
 
 
+session_start();
+
 header('Content-Type: application/json; charset=utf-8');
 
 
@@ -12,7 +14,7 @@ try{
     if(!isset($_SESSION["loggedIn"])){
         throw new Exception("Not logged in");
     }
-    $shift = $db->getShiftByID($_SESSION["id"]);
+    $shift = $db->getShiftsByID($_SESSION["id"]);
 
     // Order created successfully
     echo json_encode($shift);

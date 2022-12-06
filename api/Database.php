@@ -395,16 +395,17 @@ class Database
 
         // Get item information
         try {
-            $q = $this->connection->prepare("SELECT e.EmployeeID, s.Start, s.End
-            FROM employee e
-            JOIN `employee works shift` l on e.EmployeeID = l.EmployeeID
-            JOIN shift s on l.ShiftID
-            WHERE l.EmployeeID = :emplID");
+            $q = $this->connection->prepare("
+                SELECT s.Start, s.End
+                FROM shift s
+                JOIN `employee works shift` l on s.ShiftID = l.ShiftID
+                WHERE l.EmployeeID = :emplID;
+            ");
             $q->bindParam(":emplID", $employeeID);
             if (!$q->execute()) {
                 throw new PDOException();
             }
-            $iteminfo = $q->fetch(PDO::FETCH_ASSOC);
+            $iteminfo = $q->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error creating order.");
             $this->connection->rollBack();
