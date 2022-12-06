@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../Database.php");
 $db = new Database();
 $db->connect();
 
-
+session_start();
 
 header('Content-Type: application/json; charset=utf-8');
 
