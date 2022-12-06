@@ -30,7 +30,7 @@ if ($_SESSION['Permissions']==2) {
 }
 
 try{
-    $repairs = $db->getProductByID($_GET["branchid"]);
+    $repairs = $db->getProductByID($_GET["id"]);
 
     // Order created successfully
     echo json_encode($repairs);
