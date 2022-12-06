@@ -9,7 +9,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 
 try{
-    if(!isset($_Session["loggedIn"])){
+    if(!isset($_SESSION["loggedIn"])){
         throw new Exception("Not logged in");
     }
     $shift = $db->getShiftByID($_SESSION["id"]);
