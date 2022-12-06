@@ -524,6 +524,45 @@ class Database
                 $this->connection->rollBack();
                 throw new PDOException("Error committing transaction.", 3);
             }
-            return $shiftID;
-        } 
+
+        } catch(PDOException $e) {
+            error_log("Error creating shift.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating shift.", 2);
+          
+        }
+        return $shiftID;
     }
+    function getRepairsByBranch($branchid){
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        try {
+            $q = $this->connection->prepare("
+                SELECT Time, Duration, Description, Email, Status, Firstname, Lastname, DatePlaced
+                FROM repairs
+                WHERE BranchID = :branchID;
+            ");
+            $q->bindParam(":branchID", $branchid);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $repairinfo = $q->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error finding shifts.", 3);
+        }
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $repairinfo;
+    }
+}
+=======
+
