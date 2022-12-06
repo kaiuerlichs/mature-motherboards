@@ -15,12 +15,23 @@ try{
         // User not logged in
         echo json_encode(
             array(
-                "error" => "User not logged in",
+                "error" => "User not logged in.",
                 "code" => 200
             )
         );
+        return;
     }
-    $shift = $db->GetShiftsByID($_SESSION["id"]);
+    if($_SESSION["permissions"] != 1){
+        // User not logged in
+        echo json_encode(
+            array(
+                "error" => "User has no permissions.",
+                "code" => 209
+            )
+        );
+        return;
+    }
+    $shift = $db->GetShifts();
 
     // Order created successfully
     echo json_encode($shift);
@@ -28,7 +39,7 @@ try{
 catch(PDOException $e){
     // Processing errors
     echo json_encode(array(
-        "error" => "Internal error processing order.",
+        "error" => "Internal error retrieving shifts.",
         "code" => 305
     ));
     return;

@@ -383,7 +383,7 @@ class Database
         return $scheduleID;
     }
 
-    function getShiftsByID($employeeID)
+    function GetShiftsByID($employeeID)
     {
 
         // Start new transaction
@@ -408,7 +408,41 @@ class Database
         } catch (PDOException $e) {
             error_log("Error creating order.");
             $this->connection->rollBack();
-            throw new PDOException("Error creating order.", 3);
+            throw new PDOException("Error finding shifts.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $iteminfo;
+    }
+
+    function GetShifts()
+    {
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        // Get item information
+        try {
+            $q = $this->connection->prepare("
+                SELECT Start, End, employee.EmployeeID, FirstName, LastName
+                FROM shift
+                JOIN employee on shift.EmployeeID = employee.EmployeeID;
+            ");
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $iteminfo = $q->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error finding shifts.", 3);
         }
 
         // Commit transaction
