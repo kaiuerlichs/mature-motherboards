@@ -27,7 +27,7 @@ function addProduct() {
         link: linkValue
     };
 
-    fetch('./api/AddProduct.php', {
+    fetch('./api/products/AddProduct.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
