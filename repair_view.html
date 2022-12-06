@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css">
     <title>Repairs - Mature Motherboards</title>
+
+    <script src="https://kit.fontawesome.com/2f2028059a.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -39,7 +41,6 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col"></th>
                         <th scope="col">Customer Number</th>
                         <th scope="col">Date</th>
                         <th scope="col">Time</th>
@@ -47,17 +48,15 @@
                         <th scope="col">Description</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
+                    <tbody id = "repair">
+
                     </tbody>
                   </table>
+
+                  <div id="spinner" class="mx-auto my-2" style="font-size: 3rem;">
+                    <i class="fa-solid fa-gear fa-spin"></i>
+                  </div>
+
                 </div>
             </div>
 
@@ -114,5 +113,5 @@
 
     </section>
 </body>
-<script src="assets/js/shifts.js"></script>
+<script src="assets/js/viewRepairs.js"></script>
 </html>
