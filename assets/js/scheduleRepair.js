@@ -3,7 +3,7 @@ function scheduleRepair() {
     let fnameValue = document.getElementById("firstname").value;
     let lnameValue = document.getElementById("lastname").value;
     let emailValue = document.getElementById("email").value;
-    let dateValue = document.getElementById("date").value;
+    let dateValue = document.getElementById("date").value.replace("T", " ");
     let durValue = document.getElementById("duration").value;
     let descValue = document.getElementById("description").value;
     let branchValue = document.getElementById("branchID").value;
@@ -11,14 +11,14 @@ function scheduleRepair() {
     const data = {
         firstname: fnameValue,
         lastname: lnameValue,
-        email: emailValue,
-        time: dateValue,
-        duration: durValue,
-        description: descValue,
+        Email: emailValue,
+        Time: dateValue,
+        Duration: durValue,
+        Description: descValue,
         branchId: branchValue
     };
 
-    fetch('./api/repairs/scheduleRepair.php', {
+    fetch('./api/repairs/ScheduleRepair.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ function scheduleRepair() {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(response)
+            console.log(data)
         })
         .catch((error) => {
             console.log(error);
