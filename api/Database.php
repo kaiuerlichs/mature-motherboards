@@ -518,19 +518,14 @@ class Database
             $this->connection->rollBack();
             throw new PDOException("Error creating shift.", 2);
         }
-            //Commit transaction
-            if (!$this->connection->commit()) {
-                error_log("Error committing transaction.");
-                $this->connection->rollBack();
-                throw new PDOException("Error committing transaction.", 3);
-            }
-
-        } catch(PDOException $e) {
-            error_log("Error creating shift.");
+        //Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
             $this->connection->rollBack();
-            throw new PDOException("Error creating shift.", 2);
-          
+            throw new PDOException("Error committing transaction.", 3);
         }
+
+        
         return $shiftID;
     }
     function getRepairsByBranch($branchid){
@@ -564,5 +559,3 @@ class Database
         return $repairinfo;
     }
 }
-=======
-
