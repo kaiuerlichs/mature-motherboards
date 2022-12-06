@@ -1,16 +1,21 @@
 function scheduleRepair() {
-    let nameValue = document.getElementById("name").value
-    let prodNameValue = document.getElementById("productName").value
-    let dateValue = document.getElementById("date").value
-    let durValue = document.getElementById("duration").value
-    let descValue = document.getElementById("description").value
+    //format of post request branchId, Time, Duration, Description, Email, firstname, lastname-->
+    let fnameValue = document.getElementById("firstname").value;
+    let lnameValue = document.getElementById("lastname").value;
+    let emailValue = document.getElementById("email").value;
+    let dateValue = document.getElementById("date").value;
+    let durValue = document.getElementById("duration").value;
+    let descValue = document.getElementById("description").value;
+    let branchValue = document.getElementById("branchID").value;
 
     const data = {
-        name: nameValue,
-        productName: prodNameValue,
-        date: dateValue,
+        firstname: fnameValue,
+        lastname: lnameValue,
+        email: emailValue,
+        time: dateValue,
         duration: durValue,
         description: descValue,
+        branchId: branchValue
     };
 
     fetch('./api/repairs/scheduleRepair.php', {
