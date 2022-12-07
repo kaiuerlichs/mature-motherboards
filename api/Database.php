@@ -280,7 +280,7 @@ class Database
 
     function getProductsList()
     {
-        $count = 0;
+        
         // Start new transaction
         if (!$this->connection->beginTransaction()) {
             error_log("Error starting transaction.");
@@ -560,5 +560,34 @@ class Database
             throw new PDOException("Error committing transaction.", 3);
         }
         return $repairinfo;
+    }
+
+    function getAllEmployees(){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        // Get item information
+        try {
+            $q = $this->connection->prepare("SELECT EmployeeID, FirstName, LastName FROM employee;");
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $employeeinfo = $q->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating order.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $employeeinfo;
     }
 }

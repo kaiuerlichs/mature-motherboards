@@ -6,8 +6,6 @@ $db->connect();
 
 session_start();
 
-header('Content-Type: application/json; charset=utf-8');
-
 if(!isset($_SESSION["loggedIn"])){
     // User not logged in
     echo json_encode(
@@ -18,7 +16,7 @@ if(!isset($_SESSION["loggedIn"])){
     );
     return;
 }
-if ($_SESSION['Permissions']==3) {
+if ($_SESSION['Permissions']!=1) {
     // User not logged in
     echo json_encode(
         array(
@@ -29,11 +27,13 @@ if ($_SESSION['Permissions']==3) {
     return;
 }
 
+header('Content-Type: application/json; charset=utf-8');
+
 try{
-    $repairs = $db->getRepairsByBranch($_SESSION["id"]);
+    $employees = $db->getAllEmployees();
 
     // Order created successfully
-    echo json_encode($repairs);
+    echo json_encode($employees);
 }
 catch(PDOException $e){
     // Processing errors
