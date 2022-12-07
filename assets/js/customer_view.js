@@ -1,48 +1,146 @@
 
-var products = { 'First Product': [ "Description of first product", "1.11", "1"], 
-'Second Product': [ "Description of second product", "2.22", "2"], 
-'Third Product': [ "Description of third product", "3.33", "3"], 
-'Fourth Product': [ "Description of third product", "3.33", "3"],
-'First2 Product': [ "Description of first product", "1.11", "1"], 
-'Second2 Product': [ "Description of second product", "2.22", "2"], 
-'Third2 Product': [ "Description of third product", "3.33", "3"], 
-'Fourth2 Product': [ "Description of third product", "3.33", "3"]}; //SQL Query
+var products = [
+    {
+        "ProductID": 1,
+        "Price": "250",
+        "Type": "Computer",
+        "Name": "Sinclair ZX80",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 4,
+        "Price": "200",
+        "Type": "Computer",
+        "Name": "Atari 400",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 5,
+        "Price": "205",
+        "Type": "Computer",
+        "Name": "Atari 800",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 6,
+        "Price": "400",
+        "Type": "Computer",
+        "Name": "IBM 5120",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 7,
+        "Price": "199",
+        "Type": "Computer",
+        "Name": "Commodore 64",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 8,
+        "Price": "75",
+        "Type": "Computer",
+        "Name": "Sinclair ZX Spectrum",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 9,
+        "Price": "190",
+        "Type": "Computer",
+        "Name": "Compaq Portable",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 10,
+        "Price": "3700",
+        "Type": "Computer",
+        "Name": "Apple Macintosh 128K",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 11,
+        "Price": "900",
+        "Type": "Computer",
+        "Name": "Amiga 1000",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 12,
+        "Price": "1200",
+        "Type": "Computer",
+        "Name": "Apple Macintosh Portable",
+        "Image": "https://picsum.photos/1200/400"
+    },
+    {
+        "ProductID": 13,
+        "Price": "20",
+        "Type": "UserGuide",
+        "Name": "Sinclair ZX Spectrum User Guide",
+        "Image": "https://picsum.photos/1200/400"
+    }
+]; //Can be removed when working
 var cart = {};
 var source = "https://picsum.photos/1200/400";
+var productsSorted;
 
-try{
-    cart = JSON.parse(localStorage.getItem('cart'))
-}catch(error){
-   console.log(error);
-   
+let filter = document.getElementById("filter");
+filter.addEventListener('click', filterClick);
+
+function filterClick(){
+    let sortBy = document.getElementById("sortBy");
+    let valueSortBy = sortBy.value;
+    let type = document.getElementById("productType");
+    let asc = true;
+    if(valueSortBy == 2) asc = false;
+    if(type.value != 0) displayProducts(productsSorted, asc, type.options[type.selectedIndex].text);
 }
-var cards = document.getElementById("containerCards");
 
-displayProducts();
+//displayProducts(products, false);
+/*productsSorted = products.sort(function(a, b) {
+    var keyA = Number(a.Price),
+    keyB = Number(b.Price);
+    if (keyA < keyB) return -1;
+    if (keyA > keyB) return 1;
+    return 0;
+  }); */
 
-function displayProducts(){
+fetch('./api/products/GetProductsList.php', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+}).then((response) => {
+    displayProducts(response, false);
+    productsSorted = response.sort(function(a, b) {
+        var keyA = Number(a.Price),
+        keyB = Number(b.Price);
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+      });
 
+
+})
+    .catch((error) => {
+        console.log(error);
+});
+
+
+
+
+
+function displayProducts(data, asc, type){
+    let cards = document.getElementById("containerCards");
+    cards.innerHTML = "";
+    data = products; //REMOVE WHEN CONNECTED TO DATABASE
+    
     var onClick = (event) => {
-        let alreadyInCart = false;
-        for(let id in cart){
-            if(id == event.target.id){
-                cart[id] = cart[id]+1;
-                alreadyInCart = true;
-                console.log(cart[id]);
-                break;
-            }
-        }
-        if(!alreadyInCart){
-            if(cart == null){
-                cart = {}; //ID of target
-            }
-            cart = Object.assign(cart, {[event.target.id] : 1});
-            
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
+        window.location.href = 'product.html?'+event.target.id;
     }
 
-    for(var key in products) {
+    for(let i = (asc ? 0 : data.length-1); (asc ? i<data.length : i>=0); (asc ? i++: i--)){
+        if (type !== undefined && type != "Product Type" && type != data[i].Type){
+            continue;
+        }
         let div = document.createElement("div");
         div.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-sm-12", "mb-5");
 
@@ -55,26 +153,26 @@ function displayProducts(){
         img.classList.add("card-img-top");
         img.style.width = "18rem";
         img.style.height = "150px";
-        img.setAttribute("src", source)
+        img.setAttribute("src", data[i].Image);
 
         let div2 = document.createElement("div");
         div2.classList.add("card-body", "d-flex", "flex-column");
 
         let title = document.createElement("h5");
         title.classList.add("card-title");
-        title.innerText = key;
-        title.setAttribute('id', products[key][2]+"!title");
+        title.innerText = data[i].Name;
+        title.setAttribute('id', data[i].ProductID+"!title");
         let price = document.createElement("h6");
         price.classList.add("card-subtitle", "mb-2", "text-muted");
-        price.innerText = "£"+products[key][1];
+        price.innerText = "£"+data[i].Price;
         
         let desc = document.createElement("p");
         desc.classList.add("card-text");
-        desc.innerText = products[key][0];
+        desc.innerText = data[i].Type;
         let intoCart = document.createElement("a");
-        intoCart.setAttribute('id', products[key][2]);
+        intoCart.setAttribute('id', data[i].ProductID);
         intoCart.classList.add("btn", "btn-primary", "mt-auto");
-        intoCart.innerText = "Add to cart"
+        intoCart.innerText = "Go to product"
         intoCart.addEventListener('click', onClick);
         
         div2.appendChild(title);

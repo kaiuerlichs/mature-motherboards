@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <title>Shop - Mature Motherboards</title>
+    <title>Template - Mature Motherboards</title>
 </head>
 <body>
     <header>
@@ -34,11 +29,6 @@
                 <li class="nav-item">
                   <a class="nav-link" href="about.html">About</a>
                 </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                  <a class="btn btn-primary" href="login_page.html">Sign In</a>
-                </li>
               </ul>
             </div>
           </nav>
@@ -46,38 +36,38 @@
         <!--JUMBOTRON-->
         
         <div class="jumbotron jumbotron-fluid jumbotron-image" style="background-image: url(images/goldMotherboard.jpeg);">
-          <h1 class="text-center text-white fs-1 fw-bold">Shop</h1>
+          <h1 class="text-center text-white fs-1 fw-bold">Branches</h1>
       </div>
 
     </header>
 
     <section>
 
-        <!--FILER SHOP-->
+        <!--
 
         <form class="form-inline">
             <div class="form-group mb-2">
                 <label for="productType" class="sr-only">Product type</label>
                 <select class="form-control" id="productType">
                   <option>Product Type</option>
-                  <option>Computer</option>
-                  <option>UserGuide</option>
-                  <option>Upgrade Kit</option>
-                  <option>Peripheral</option>
+                  <option>Computers</option>
+                  <option>User Guides</option>
+                  <option>Upgrade Kits</option>
+                  <option>Peripherals</option>
                 </select>
             </div>
-
+            
             <div class="form-group mx-sm-3 mb-2">
                 <label for="orderBy" class="sr-only">Order By</label>
                 <select class="form-control" id="sortBy">
                   <option>Order By</option>
-                  <option value="1">Price - Low to High</option>
-                  <option value="2">Price - High to Low</option>
+                  <option>Price - Low to High</option>
+                  <option>Price - High to Low</option>
                 </select>
             </div>
 
-            <button type="button" class="btn btn-primary mb-2" id="filter">Filter</button>
-          </form>
+            <button type="submit" class="btn btn-primary mb-2">Filter</button>
+          </form> NOT REQUIRED FOR BRANCH-->
 
     </section>
 
@@ -86,12 +76,15 @@
         <!--PRODUCT CARDS-->
 
         <div class="container-fluid mt-3">
-          <div class="row" id="containerCards"> 
+            <div class="row" id="containerCards"> 
 
-          </div>
+            </div>
+
         </div>
 
     </section>
-    <script src="assets/js/customer_view.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRGzepAJM76Tvb_PZ2HqU-T4fbT8zJXuA&libraries=geometry"></script>
+    
+    <script src="assets/js/branch.js"></script>
 </body>
 </html>
