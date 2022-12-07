@@ -53,16 +53,10 @@
               <h3>Schedule Repairs</h3>
               <form>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="custNo" placeholder="Customer Email">
+                  <input type="text" class="form-control" id="branchID" placeholder="branch ID">
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="branchNo" placeholder="Branch Number">
-                </div>
-                <div class="form-group">
-                  <input type="date" class="form-control" id="date" placeholder="Date">
-                </div>
-                <div class="form-group">
-                  <input type="time" class="form-control" id="time" placeholder="Time">
+                  <input type="datetime-local" class="form-control" id="date" placeholder="Date">
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="duration" placeholder="Duration">
@@ -70,7 +64,17 @@
                 <div class="form-group">
                   <input type="text" class="form-control" id="description" placeholder="Description">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="email" placeholder="email">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="firstname" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="lastname" placeholder="Last Name">
+                </div>
+              </form>
+              <button onclick="scheduleRepair()" class="btn btn-primary">Submit</button>
               </form>
             </div>
           </div>
@@ -127,7 +131,7 @@
           </tbody>
         </table>
 
-        <div id="spinner" class="mx-auto my-2" style="font-size: 3rem;">
+        <div id="spinnerShifts" class="mx-auto my-2" style="font-size: 3rem;">
           <i class="fa-solid fa-gear fa-spin"></i>
         </div>
 
@@ -135,6 +139,7 @@
     </div>
 
   </section>
+  <script src="assets/js/scheduleRepair.js"></script>
   <script src="assets/js/shifts.js"></script>
 </body>
 
