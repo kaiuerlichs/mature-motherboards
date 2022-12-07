@@ -530,7 +530,7 @@ class Database
         
         return $shiftID;
     }
-    function getRepairsByBranch($branchid){
+    function getRepairsByBranch($userid){
         if (!$this->connection->beginTransaction()) {
             error_log("Error starting transaction.");
             throw new PDOException("Error starting transaction.", 1);
@@ -538,11 +538,12 @@ class Database
 
         try {
             $q = $this->connection->prepare("
-                SELECT Time, Duration, Description, Email, Status, Firstname, Lastname, DatePlaced
-                FROM repairs
-                WHERE BranchID = :branchID;
+                SELECT r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
+                FROM repairs r
+                JOIN employee e on r.EmployeeId = e.EmployeeId
+                WHERE e.EmployeeID = :emplID;
             ");
-            $q->bindParam(":branchID", $branchid);
+            $q->bindParam(":emplID", $userid);
             if (!$q->execute()) {
                 throw new PDOException();
             }
