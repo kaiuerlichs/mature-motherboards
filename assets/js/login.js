@@ -1,4 +1,5 @@
 function login() {
+    document.getElementById("login").innerHTML = '<i class="fa-solid fa-gear" id="spinner"></i>'
     let spinner = document.getElementById("spinner")
     spinner.classList.add("fa-spin")
 
@@ -25,14 +26,23 @@ function login() {
                 window.location.href = data.redirectUrl;
             } else {
                 document.getElementById("errorText").innerHTML = data.error;
+                document.getElementById("login").innerHTML = 'Log In';
             }
         })
         .catch((error) => {
             spinner.classList.remove("fa-spin")
             document.getElementById("errorText").innerHTML = "Error when logging in.";
+            document.getElementById("login").innerHTML = 'Log In';
         });
 }
-function logout() {
+function logOut() {
+    
+    document.getElementById("logout").innerHTML = '<i class="fa-solid fa-gear" id="spinner"></i>'
+    let spinner = document.getElementById("spinner")
+    spinner.classList.add("fa-spin")
+    
+    const data = {};
+
     fetch('./api/logout.php', {
         method: 'POST',
         headers: {
@@ -42,13 +52,17 @@ function logout() {
     })
         .then((response) => response.json())
         .then((data) => {
+            spinner.classList.remove("fa-spin")
             if (data.code == 201) {
                 window.location.href = "customer_view.html";
             } else {
                 document.getElementById("logout").innerHTML = data.error;
+                document.getElementById("logout").innerHTML = 'Log Out';
             }
         })
         .catch((error) => {
-            document.getElementById("logout").innerHTML = "Error when logging in.";
+            spinner.classList.remove("fa-spin")
+            document.getElementById("logout").innerHTML = "Error when logging out.";
+            document.getElementById("logout").innerHTML = 'Log Out';
         });
 }
