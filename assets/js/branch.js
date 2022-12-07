@@ -1,26 +1,151 @@
 
-var branches = { 1 : [ "Postcode", "Number", "Street", "Country", "Opening times", "BranchName"], 
-2 : [ "DD2 5PA", "10", "Friary Gardens", "Great Britan", "5-12", "My Home"],
-3 : [ "EH9 1NX", "29", "Sciennes Rd", "GB", "Opening times", "BranchName"]}; //SQL Query
+var branches = {
+    "1":{
+       "name":"Dundee",
+       "address":{
+          "addressName":"Mature Motherboards Dundee",
+          "line1":"1 Law Rd",
+          "line2":null,
+          "line3":null,
+          "town":"Dundee",
+          "postcode":"DD36ET"
+       },
+       "hours":{
+          "mon":[
+             "11:00:00.000000",
+             "18:00:00.000000"
+          ],
+          "tue":[
+             "11:00:00.000000",
+             "18:00:00.000000"
+          ],
+          "wed":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "thu":[
+             "11:00:00.000000",
+             "18:00:00.000000"
+          ],
+          "fri":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ]
+       }
+    },
+    "2":{
+       "name":"Stirling",
+       "address":{
+          "addressName":"Mature Motherboards Stirling",
+          "line1":"2 Upper Castlehill",
+          "line2":"Unit 2",
+          "line3":null,
+          "town":"Stirling",
+          "postcode":"FK81FU"
+       },
+       "hours":{
+          "mon":[
+             "10:00:00.000000",
+             "16:00:00.000000"
+          ],
+          "tue":[
+             "10:00:00.000000",
+             "16:00:00.000000"
+          ],
+          "wed":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "thu":[
+             "10:00:00.000000",
+             "16:00:00.000000"
+          ],
+          "fri":[
+             "10:00:00.000000",
+             "16:00:00.000000"
+          ],
+          "sat":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "sun":[
+             "12:00:00.000000",
+             "15:00:00.000000"
+          ]
+       }
+    },
+    "3":{
+       "name":"St. Andrews",
+       "address":{
+          "addressName":"Mature Motherboards St. Andrews",
+          "line1":"80 North St",
+          "line2":null,
+          "line3":null,
+          "town":"St. Andrews",
+          "postcode":"KY169AH"
+       },
+       "hours":{
+          "tue":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "wed":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "fri":[
+             "10:00:00.000000",
+             "15:00:00.000000"
+          ],
+          "sat":[
+             "10:00:00.000000",
+             "13:00:00.000000"
+          ]
+       }
+    }
+ }; //This can be removed only done for testing
 
-var source = "https://picsum.photos/1200/400";
+const days = {
+    "mon" : "Monday",
+    "tue" : "Tuesday",
+    "wed" : "Wednesday",
+    "thu" : "Thursday",
+    "fri" : "Friday",
+    "sat" : "Saturday",
+    "sun" : "Sunday"
+};
 
 var cards = document.getElementById("containerCards");
 
 API_KEY = "AIzaSyCRGzepAJM76Tvb_PZ2HqU-T4fbT8zJXuA"
 
+//displayBranches(branches);
+//getCoordinates();
+
+fetch('./api/products/GetAllBranches.php', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+}).then((response) => {
+    displayBranches(response);
+    getCoordinates();
+})
+    .catch((error) => {
+        console.log(error);
+});
+
 
 
 function getFullAddress(id, forGoogle){
 
-    console.log(id);
     if(forGoogle){
-        return branches[Number(id)][0] + " " + branches[Number(id)][1] + " " + branches[Number(id)][2] + " " + branches[Number(id)][3] + "&components=country:GB";
+        return branches[Number(id)]["address"]["line1"] + " " + ((branches[Number(id)]["address"]["line2"] == null ? "" : branches[Number(id)]["address"]["line2"] + " ")) + ((branches[Number(id)]["address"]["line3"] == null ? "" : branches[Number(id)]["address"]["line3"] + " ")) + branches[Number(id)]["address"]["town"] +" " + branches[Number(id)]["address"]["postcode"] + "&components=country:GB";
     }
     if(typeof id === "number"){
-        return branches[id][0] + " " + branches[id][1] + " " + branches[id][2] + " " + branches[id][3] + " " + branches[id][4];
+        return  branches[id]["address"]["addressName"] + "<br>" + branches[id]["address"]["line1"] + "<br>" + ((branches[id]["address"]["line2"] == null ? "" : branches[id]["address"]["line2"] + "<br>")) + ((branches[id]["address"]["line3"] == null ? "" : branches[id]["address"]["line3"] + "<br>")) + branches[id]["address"]["postcode"] +" " + branches[id]["address"]["town"];
     }else{
-        return branches[Number(id)][0] + " " + branches[Number(id)][1] + " " + branches[Number(id)][2] + " " + branches[Number(id)][3] + " " + branches[Number(id)][4];
+        return  branches[Number(id)]["address"]["addressName"] + "<br>" + branches[Number(id)]["address"]["line1"] + "<br>" + ((branches[Number(id)]["address"]["line2"] == null ? "" : branches[Number(id)]["address"]["line2"] + "<br>")) + ((branches[Number(id)]["address"]["line3"] == null ? "" : branches[Number(id)]["address"]["line3"] + "<br>")) + branches[Number(id)]["address"]["postcode"] +" " + branches[Number(id)]["address"]["town"];
     }
     
 }
@@ -58,32 +183,26 @@ function getCoordinates()
 }
 
 
-function initMap(){
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 56.461430, lng: -2.968110},
-        zoom: 8
-      });
-      
-}
+
 
 
 function createDescription(id){
-    return "<p>Opening hours: " + branches[id][4] + " </p> <p>Address: " + getFullAddress(id) + "</p>" //TODO proper formatting for SQL opening hours query
+    let desc = '<p style="font-size: 14px;">'+getFullAddress(id)+"</p>"
+    desc += '<p style="font-size: 10px;">';
+    let i = 0;
+    for(hours in branches[id].hours){
+        desc += days[hours] + " : " + branches[id].hours[hours][0].slice(0,5) + "-" + branches[id].hours[hours][1].slice(0,5) + "&emsp;"
+        if(i % 2 == 1) desc += "<br>";
+        i++;
+    }
+    return desc + "</p>";
 }
 
-function getDistance(id){
 
-}
+function displayBranches(data){
+    //data = branches; //remove when in use
 
-getCoordinates();
-
-displayProducts();
-
-
-function displayProducts(){
-
-
-    for(var key in branches) {
+    for(var key in data) {
         //Key equivalent to ID in this case here
         let div = document.createElement("div");
         div.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-sm-12", "mb-5");
@@ -98,7 +217,7 @@ function displayProducts(){
 
         let title = document.createElement("h5");
         title.classList.add("card-title");
-        title.innerText = branches[key][5];
+        title.innerText = data[key]["name"]; //Either Name or data[key]
         let address = document.createElement("h6");
         address.classList.add("card-subtitle", "mb-2", "text-muted");
         address.innerText = "Please allow location to get the distance to the branch";
@@ -112,14 +231,14 @@ function displayProducts(){
         getDirection.classList.add("btn", "btn-primary", "mt-auto");
         getDirection.innerText = "Get Directions";
         getDirection.setAttribute('id', key+"!");
-        getDirection.addEventListener('click', function(event) { window.open("https://maps.google.com/?q="+ getFullAddress(event.target.id.replace("!", ""), false), "_blank"); });
+        getDirection.addEventListener('click', function(event) { window.open("https://maps.google.com/?q="+ getFullAddress(event.target.id.replace("!", ""), true), "_blank"); });
         
         div2.appendChild(title);
         div2.appendChild(address);
         div2.appendChild(desc);
         div2.appendChild(getDirection);
         div1.appendChild(div2);
-        div.appendChild(div1)
+        div.appendChild(div1);
         cards.appendChild(div);
 
     }

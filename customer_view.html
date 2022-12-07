@@ -53,10 +53,10 @@
                 <label for="productType" class="sr-only">Product type</label>
                 <select class="form-control" id="productType">
                   <option>Product Type</option>
-                  <option>Computers</option>
-                  <option>User Guides</option>
-                  <option>Upgrade Kits</option>
-                  <option>Peripherals</option>
+                  <option>Computer</option>
+                  <option>UserGuide</option>
+                  <option>Upgrade Kit</option>
+                  <option>Peripheral</option>
                 </select>
             </div>
 
@@ -64,12 +64,12 @@
                 <label for="orderBy" class="sr-only">Order By</label>
                 <select class="form-control" id="sortBy">
                   <option>Order By</option>
-                  <option>Price - Low to High</option>
-                  <option>Price - High to Low</option>
+                  <option value="1">Price - Low to High</option>
+                  <option value="2">Price - High to Low</option>
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary mb-2">Filter</button>
+            <button type="button" class="btn btn-primary mb-2" id="filter">Filter</button>
           </form>
 
     </section>
