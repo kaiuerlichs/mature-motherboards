@@ -1,5 +1,5 @@
 function main() {
-  let url = "./api/shifts/.php" // ADD PHP
+  let url = "./api/GetRepairsByBranch/.php" // ADD PHP
 
   //clears the container
   document.getElementById('repair').innerHTML = "";
