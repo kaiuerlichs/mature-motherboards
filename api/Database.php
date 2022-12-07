@@ -421,7 +421,7 @@ class Database
         return $iteminfo;
     }
 
-    function GetShifts()
+    function GetShifts($userid)
     {
         // Start new transaction
         if (!$this->connection->beginTransaction()) {
@@ -434,8 +434,10 @@ class Database
             $q = $this->connection->prepare("
                 SELECT Start, End, employee.EmployeeID, FirstName, LastName
                 FROM shift
-                JOIN employee on shift.EmployeeID = employee.EmployeeID;
+                JOIN employee on shift.EmployeeID = employee.EmployeeID
+                WHERE BranchID = (SELECT BranchID FROM employee WHERE EmployeeID = :emplID);
             ");
+            $q->bindParam(":emplID", $userid);
             if (!$q->execute()) {
                 throw new PDOException();
             }

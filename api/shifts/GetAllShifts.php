@@ -31,7 +31,7 @@ try{
         );
         return;
     }
-    $shift = $db->GetShifts();
+    $shift = $db->GetShifts($_SESSION["id"]);
 
     // Order created successfully
     echo json_encode($shift);
