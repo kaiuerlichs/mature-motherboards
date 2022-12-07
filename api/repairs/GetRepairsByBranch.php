@@ -18,7 +18,7 @@ if(!isset($_SESSION["loggedIn"])){
     );
     return;
 }
-if ($_SESSION['Permissions']==3) {
+if ($_SESSION['permissions']==3) {
     // User not logged in
     echo json_encode(
         array(

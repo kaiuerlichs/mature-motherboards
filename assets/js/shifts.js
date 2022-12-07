@@ -11,7 +11,7 @@ function main() {
     .then((resp) => resp.json())
     .then(function(value) {
       console.log(value)
-      document.getElementById("spinner").remove()
+      document.getElementById("spinnerShifts").remove()
 
       value.map(function(shift) {
         shiftContainer.innerHTML += "<tr><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"

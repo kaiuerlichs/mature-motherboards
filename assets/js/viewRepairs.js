@@ -1,5 +1,5 @@
 function main() {
-  let url = "./api/GetRepairsByBranch/.php" // ADD PHP
+  let url = "./api/repairs/GetRepairsByBranch.php" // ADD PHP
 
   //clears the container
   document.getElementById('repair').innerHTML = "";
@@ -10,10 +10,10 @@ function main() {
   fetch(url)
     .then((resp) => resp.json())
     .then(function(value) {
-      document.getElementById("spinner").remove()
+      document.getElementById("spinnerRepairs").remove()
 
       value.map(function(repair) {
-        shiftContainer.innerHTML += "<tr><td>" + repair.customerNumber + "</td><td>" + repair.time + "</td><td>" + repair.duration + "</td><td>" + repair.description + "</td><tr>"
+        shiftContainer.innerHTML += "<tr><td>" + repair.Email + "</td><td>" + repair.Time + "</td><td>" + repair.Duration + "</td><td>" + repair.Description + "</td><tr>"
       })
     })
     .catch(function(error) {
