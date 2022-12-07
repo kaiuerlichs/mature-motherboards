@@ -1,0 +1,24 @@
+<?php
+require_once(__DIR__ . "/../Database.php");
+
+$db = new Database();
+$db->connect();
+
+
+
+header('Content-Type: application/json; charset=utf-8');
+
+try{
+    $employees = $db->getAllEmployees();
+
+    // Order created successfully
+    echo json_encode($employees);
+}
+catch(PDOException $e){
+    // Processing errors
+    echo json_encode(array(
+        "error" => "Internal error processing order.",
+        "code" => 305
+    ));
+    return;
+}
