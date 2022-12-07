@@ -10,6 +10,7 @@ function main() {
   fetch(url)
     .then((resp) => resp.json())
     .then(function(value) {
+      console.log(value)
       document.getElementById("spinner").remove()
 
       value.map(function(shift) {

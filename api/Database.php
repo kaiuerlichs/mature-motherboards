@@ -399,8 +399,7 @@ class Database
             $q = $this->connection->prepare("
                 SELECT s.Start, s.End
                 FROM shift s
-                JOIN `employee works shift` l on s.ShiftID = l.ShiftID
-                WHERE l.EmployeeID = :emplID;
+                WHERE EmployeeID = :emplID;
             ");
             $q->bindParam(":emplID", $employeeID);
             if (!$q->execute()) {
