@@ -572,7 +572,7 @@ class Database
 
         // Get item information
         try {
-            $q = $this->connection->prepare("SELECT EmployeeID, FirstName, LastName, Email, Phone FROM employee;");
+            $q = $this->connection->prepare("SELECT EmployeeID, BranchID, FirstName, LastName, Email, Phone FROM employee;");
             if (!$q->execute()) {
                 throw new PDOException();
             }
