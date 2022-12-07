@@ -53,27 +53,69 @@
             <div class="row">
                 <div class="col-4">
                     <div class="card" style="width: 22rem;">
-                        <img class="card-img-top" src="https://picsum.photos/1200/1200" alt="Image of Product"> 
+                        <img class="card-img-top" id="image" alt="Image of Product"> 
                     </div>
                 </div>
 
                 <div class="col-4">
-                    <h3>Product Name</h3>
-                    <p>Description: </p>
-                    <p>Price: </p>
-                    <p>[stock message]</p>
-                    <p>Production Date: </p>
-                    <p>Operating System: </p>
-                    <p>Architecture: </p>
-                    <p>Storage: </p>
-                    <p>Memory: </p>
-                    <p>Page Count: </p>
+                    <h3 id="name"></h3>
+                    <p id="description"></p>
+                    <p id="price"></p>
+                    <p id="type"></p>
+                    <p id="stock"></p>
+                    <p id="productionDate"></p>
+                    <p id="date"></p>
+                    <p id="architecture"></p>
+                    <p id="storage"></p>
+                    <p id="memory"></p>
+                    <p id="pageCount"></p>
                     <button type="button" onclick="onClick()" class="btn btn-primary">Add to cart</button>
                 </div>
             </div>
         </div>
     </section>
-    
+    <script>
+    //call main when website loads
+    window.onload = function() {
+        main();
+    }
+
+    function createNode(element) {
+        return document.createElement(element);
+    }
+
+    function append(parent, el) {
+        return parent.appendChild(el);
+    }
+
+    function main() {
+
+        var pathArray = window.location.search.split('?');
+        let idNumber = pathArray[1];
+        
+        fetch('./api/products/GetProductById.php?id=' + idNumber)
+        .then((resp) => resp.json())
+        .then(function(data) {
+            console.log(data);
+            //Gets data from the API and writes it to the HTML
+            document.getElementById('image').src = data.Image;
+            document.getElementById('name').innerHTML = data.Name;
+            document.getElementById('description').innerHTML = "Description: " + data.Description;
+            document.getElementById('price').innerHTML = "Price: " + data.Price;
+            document.getElementById('type').innerHTML = "Type: " + data.Type;
+            document.getElementById('stock').innerHTML = "Stock: " + data.Stock;
+            document.getElementById('productionDate').innerHTML = "Production Date: " + data.ProductionDate;
+            document.getElementById('os').innerHTML = "Operating System: "+ data.OperatingSystem;
+            document.getElementById('architecture').innerHTML = "Architecture: "+ data.Architecture;
+            document.getElementById('storage').innerHTML = "Storage: " + data.Storage;
+            document.getElementById('memory').innerHTML = "Memory: " + data.Memory;
+            document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;            
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    }
+    </script>
     <script src="assets/js/product.js"></script>
 </body>
 </html>
