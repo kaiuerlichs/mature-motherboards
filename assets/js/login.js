@@ -31,5 +31,24 @@ function login() {
             spinner.classList.remove("fa-spin")
             document.getElementById("errorText").innerHTML = "Error when logging in.";
         });
-
+}
+function logout() {
+    fetch('./api/logout.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.code == 201) {
+                window.location.href = "customer_view.html";
+            } else {
+                document.getElementById("logout").innerHTML = data.error;
+            }
+        })
+        .catch((error) => {
+            document.getElementById("logout").innerHTML = "Error when logging in.";
+        });
 }
