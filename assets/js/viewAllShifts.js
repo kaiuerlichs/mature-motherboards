@@ -25,11 +25,14 @@ function main() {
       });
 
       let select = document.getElementById("selectEmployee")
+      let select2 = document.getElementById("selectEmployeeAdd")
       Object.entries(employees).forEach(([key, value]) => {
         select.innerHTML += '<option value="' + value + '">' + key + '</option>'
+        select2.innerHTML += '<option value="' + value + '">' + key + '</option>'
       })
 
       document.getElementById("disabledOption").innerHTML = "Please select..."
+      document.getElementById("disabledOptionAdd").innerHTML = "Please select..."
 
       value.map(function (shift) {
         shiftContainer.innerHTML += "<tr class='d-none shift' employee='"+ shift.EmployeeID + "'><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"
