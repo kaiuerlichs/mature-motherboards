@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="card" style="width: 22rem;">
-                        <img class="card-img-top" id="image" alt="Image of Product"> 
+                        <img class="card-img-top" src="" id="image" alt="Image of Product"> 
                     </div>
                 </div>
 
@@ -100,7 +100,6 @@
             //Gets data from the API and writes it to the HTML
             document.getElementById('image').src = data.Image;
             document.getElementById('name').innerHTML = data.Name;
-            document.getElementById('description').innerHTML = "Description: " + data.Description;
             document.getElementById('price').innerHTML = "Price: " + data.Price;
             document.getElementById('type').innerHTML = "Type: " + data.Type;
             document.getElementById('stock').innerHTML = "Stock: " + data.Stock;
@@ -109,7 +108,8 @@
             document.getElementById('architecture').innerHTML = "Architecture: "+ data.Architecture;
             document.getElementById('storage').innerHTML = "Storage: " + data.Storage;
             document.getElementById('memory').innerHTML = "Memory: " + data.Memory;
-            document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;            
+            document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;    
+            document.getElementById('description').innerHTML = "Description: " + data.Description;        
         })
         .catch(function(error) {
             console.log(error);
