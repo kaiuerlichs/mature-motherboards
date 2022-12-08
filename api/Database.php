@@ -339,6 +339,54 @@ class Database
         }
         return $iteminfo;
     }
+    function scheduleRepairByEmployee($scheduleDetails, $employeeID)
+    {
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        // Create repair slot
+        try {
+            $ts = date("Y-m-d H:i:s", strtotime($scheduleDetails["Time"]));
+            // Prepare statement to insert repair into db
+            $q = $this->connection->prepare("INSERT INTO repairs (BranchID, Time,
+            Duration, Description, Email, FirstName,
+            LastName, DatePlaced)
+            VALUES ((SELECT BranchId from employee WHERE EmployeeID = :emplID), :time, :duration, :description, :email,
+            :firstname, :lastname, CURDATE());");
+            $q->bindParam(":emplID", $employeeID);
+            $q->bindParam(":time", $ts);
+            $q->bindParam(":duration", $scheduleDetails["Duration"]);
+            $q->bindParam(":description", $scheduleDetails["Description"]);
+            $q->bindParam(":email", $scheduleDetails["Email"]);
+            $q->bindParam(":firstname", $scheduleDetails["firstname"]);
+            $q->bindParam(":lastname", $scheduleDetails["lastname"]);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            // Query for new repair ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $scheduleID = $result["id"];
+            }
+
+            // Commit transaction
+            if (!$this->connection->commit()) {
+                error_log("Error committing transaction.");
+                $this->connection->rollBack();
+                throw new PDOException("Error committing transaction.", 3);
+            }
+        } catch (PDOException $e) {
+            throw $e;
+            error_log("Error creating repair.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating repair slot.", 2);
+        }
+        return $scheduleID;
+    }
 
     function scheduleRepair($scheduleDetails)
     {
