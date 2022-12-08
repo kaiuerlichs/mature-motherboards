@@ -98,16 +98,13 @@
                 </div>
     
                 <div class="row">
-                  <div class="col-md-5 mb-3">
-                    <label for="country">Country</label>
-                    <select class="custom-select d-block w-100" id="country" required>
-                      <option value="">Choose...</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="Ireland">Ireland</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please select a valid country.
-                    </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="address3">Address 3<span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" id="address3" placeholder="Apartment or suite">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="town">Town</label>
+                    <input type="text" class="form-control" id="town" placeholder="Town" required>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label for="zip">Zip</label>
@@ -154,19 +151,21 @@
                         <label for="address2Shipping">Address 2 <span class="text-muted">(Optional)</span></label>
                         <input type="text" class="form-control" id="address2Shipping" placeholder="Apartment or suite">
                       </div>
+
           
                       <div class="row">
-                        <div class="col-md-5 mb-3">
-                          <label for="countryShipping">Country</label>
-                          <select class="custom-select d-block w-100" id="countryShipping" required>
-                            <option value="">Choose...</option>
-                            <option value="United Kingdom">United Kingdom</option>
-                            <option value="Ireland">Ireland</option>
-                          </select>
-                          <div class="invalid-feedback">
-                            Please select a valid country.
-                          </div>
-                        </div>
+                        
+                      <div class="col-md-6 mb-3">
+                        <label for="address3Shipping">Address 3 <span class="text-muted">(Optional)</span></label>
+                        <input type="text" class="form-control" id="address3Shipping" placeholder="Apartment or suite">
+                      </div>
+
+                      <div class="col-md-3 mb-3">
+                        <label for="townShipping">Town</label>
+                        <input type="text" class="form-control" id="townShipping" placeholder="Town" required>
+                      </div>
+
+
                         <div class="col-md-3 mb-3">
                           <label for="zipShipping">Zip</label>
                           <input type="text" class="form-control" id="zipShipping" placeholder="" required>
@@ -181,16 +180,6 @@
     
                 <h4 class="mb-3">Payment</h4>
     
-                <div class="d-block my-3">
-                  <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                    <label class="custom-control-label" for="credit">Credit card</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="debit">Debit card</label>
-                  </div>
-                </div>
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="cc-name">Name on card</label>
@@ -241,37 +230,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script src="assets/js/checkout.js"></script>
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
-
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if(document.getElementById("same-address").checked == true){
-                document.getElementById("firstNameShipping").value = document.getElementById("firstName").value;
-                document.getElementById("lastNameShipping").value = document.getElementById("lastName").value;
-                document.getElementById("addressShipping").value = document.getElementById("address").value;
-                document.getElementById("address2Shipping").value = document.getElementById("address2").value;
-                document.getElementById("countryShipping").value = document.getElementById("country").value;
-                document.getElementById("zipShipping").value = document.getElementById("zip").value;
-              }
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    </script>
 
 </body>
 </html>
