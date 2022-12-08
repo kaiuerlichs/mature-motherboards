@@ -68,6 +68,78 @@ class Database
         throw new InvalidArgumentException("Invalid email.");
     }
 
+    function InputOrder($email, $productID){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+        $addrID = 66;
+        try {
+            $q = $this->connection->prepare("INSERT INTO `order` (DatePlaced, Email, AddressID) VALUES (CURDATE(), :email, :addrID);");
+            $q->bindParam(":email", $orderDetails["email"]);
+            $q->bindParam(":addrID", $addrID );
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            // Query for new order ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $ordID = $result["id"];
+            }
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating order.", 3);
+        }
+
+        // // Get each item by ID and check availability, add price to total
+        $totalAmount = 0;
+
+        
+        try {
+            $q = $this->connection->prepare("SELECT Price, Stock FROM product WHERE ProductID = :id FOR UPDATE;");
+            $q->bindParam(":id", $productID);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            foreach ($q->fetchAll() as $result) {
+                if ($result["Stock"] > 0) {
+                    $totalAmount += $result["Price"];
+
+                    // Update stock
+                    $q = $this->connection->prepare("UPDATE product SET Stock = Stock - 1 WHERE ProductID = :prodID;");
+                    $q->bindParam(":prodID", $productID);
+                    if (!$q->execute()) {
+                        throw new PDOException();
+                    }
+
+                    // Add row to joining table
+                    $q = $this->connection->prepare("INSERT INTO `order contains product` (ProductID, OrderID) VALUES (:prodID, :ordID);");
+                    $q->bindParam(":prodID", $productID);
+                    $q->bindParam(":ordID", $ordID);
+                    if (!$q->execute()) {
+                        throw new PDOException();
+                    }
+                } else {
+                    error_log("Not enough stock.");
+                    $this->connection->rollBack();
+                    throw new PDOException("Not enough stock for " . $productID . ".", 4);
+                }
+            }
+        } catch (PDOException $e) {
+            error_log("Error calculating total.");
+            $this->connection->rollBack();
+            throw new PDOException("Error calculating total.", 5);
+        }
+        return $ordID;
+    }
+
+    
+
     function CreateOrder($products, $orderDetails, $cardDetails, $addressDetails)
     {
         // Start new transaction
@@ -197,7 +269,7 @@ class Database
             throw new PDOException("Error committing transaction.", 7);
         }
 
-        return $ordID;
+        
     }
 
     function GetAllBranches()
