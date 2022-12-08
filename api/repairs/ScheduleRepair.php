@@ -6,10 +6,12 @@ $db = new Database();
 $db->connect();
 
 header('Content-Type: application/json; charset=utf-8');
+session_start();
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$keys = ["branchId", "Time", "Duration", "Description", "Email", "firstname", "lastname"];
+$keys = ["Time", "Duration", "Description", "Email", "firstname", "lastname"];
+
 
 foreach ($keys as $element) {
     if(!isset($_POST[$element])){
@@ -24,7 +26,7 @@ foreach ($keys as $element) {
 }
 
 try{
-    $scheduleID = $db->scheduleRepair($_POST);
+    $scheduleID = $db->scheduleRepairByEmployee($_POST, $_SESSION["id"]);
 
     // Order created successfully
     echo json_encode(array(
