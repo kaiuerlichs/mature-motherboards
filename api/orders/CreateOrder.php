@@ -72,6 +72,7 @@ try{
 }
 catch(PDOException $e){
     // Processing errors
+    error_log($e);
     echo json_encode(array(
         "error" => "Internal error processing order.",
         "code" => 305
