@@ -493,7 +493,7 @@ class Database
         return $prodRef;
     }
 
-    function addShift($shiftDetails, $employeeID) {
+    function addShift($shiftDetails) {
         //Start new transaction
         if (!$this->connection->beginTransaction()) {
             error_log("Error starting transaction.");
@@ -504,9 +504,9 @@ class Database
         try {
             //Prepare statement to insert shift into employee works shift
             $q = $this->connection->prepare("INSERT INTO shift (Start, End, EmployeeID) VALUES (:start, :end, :employeeid);");
-            $q->bindParam(":start", $shiftDetails["Start"]);
-            $q->bindParam(":end", $shiftDetails["End"]);
-            $q->bindParam(":employeeid", $employeeID);
+            $q->bindParam(":start", date("Y-m-d H:i:s", strtotime($shiftDetails["startTime"])));
+            $q->bindParam(":end", date("Y-m-d H:i:s", strtotime($shiftDetails["endTime"])));
+            $q->bindParam(":employeeid", $shiftDetails["employeeID"]);
 
             if (!$q->execute()) {
                 throw new PDOException();
