@@ -54,7 +54,7 @@ function logOut() {
         .then((data) => {
             spinner.classList.remove("fa-spin")
             if (data.code == 201) {
-                window.location.href = "customer_view.html";
+                window.location.href = "index.html";
             } else {
                 document.getElementById("logout").innerHTML = data.error;
                 document.getElementById("logout").innerHTML = 'Log Out';
