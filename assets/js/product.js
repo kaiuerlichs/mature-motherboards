@@ -13,7 +13,6 @@ function onClick() {
 
     for (let id in cart) {
         if (id == targetID) {
-            cart[id] = cart[id] + 1;
             alreadyInCart = true;
             console.log(cart[id]);
             spinner.classList.remove("fa-spin");
@@ -26,8 +25,6 @@ function onClick() {
         }
         cart = Object.assign(cart, { [targetID]: 1 });
         spinner.classList.remove("fa-spin");
-        
-
     }
     document.getElementById("addToCart").innerHTML = 'Add To Cart';
     document.getElementById("alert").classList.add("alert-primary");
