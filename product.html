@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="card" style="width: 22rem;">
-                        <img class="card-img-top" src="" id="image" alt="Image of Product">
+                        <img class="card-img-top" src="" id="image" alt="Image of Product" hidden>
                     </div>
                 </div>
 
@@ -85,7 +85,7 @@
                     <p id="storage"></p>
                     <p id="memory"></p>
                     <p id="pageCount"></p>
-                    <button type="button" onclick="onClick()" class="btn btn-primary">Add to cart</button>
+                    <button id="addToCart" type="button" onclick="onClick()" class="btn btn-primary" hidden>Add to cart</button>
                 </div>
             </div>
         </div>
@@ -113,6 +113,8 @@
                 .then((resp) => resp.json())
                 .then(function (data) {
                     document.getElementById("cog").remove();
+                    document.getElementById("image").removeAttribute("hidden");
+                    document.getElementById("addToCart").removeAttribute("hidden");
                     console.log(data);
                     //Gets data from the API and writes it to the HTML
                     document.getElementById('image').src = data.Image;
