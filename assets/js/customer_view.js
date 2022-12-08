@@ -1,83 +1,3 @@
-
-var products = [
-    {
-        "ProductID": 1,
-        "Price": "250",
-        "Type": "Computer",
-        "Name": "Sinclair ZX80",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 4,
-        "Price": "200",
-        "Type": "Computer",
-        "Name": "Atari 400",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 5,
-        "Price": "205",
-        "Type": "Computer",
-        "Name": "Atari 800",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 6,
-        "Price": "400",
-        "Type": "Computer",
-        "Name": "IBM 5120",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 7,
-        "Price": "199",
-        "Type": "Computer",
-        "Name": "Commodore 64",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 8,
-        "Price": "75",
-        "Type": "Computer",
-        "Name": "Sinclair ZX Spectrum",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 9,
-        "Price": "190",
-        "Type": "Computer",
-        "Name": "Compaq Portable",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 10,
-        "Price": "3700",
-        "Type": "Computer",
-        "Name": "Apple Macintosh 128K",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 11,
-        "Price": "900",
-        "Type": "Computer",
-        "Name": "Amiga 1000",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 12,
-        "Price": "1200",
-        "Type": "Computer",
-        "Name": "Apple Macintosh Portable",
-        "Image": "https://picsum.photos/1200/400"
-    },
-    {
-        "ProductID": 13,
-        "Price": "20",
-        "Type": "UserGuide",
-        "Name": "Sinclair ZX Spectrum User Guide",
-        "Image": "https://picsum.photos/1200/400"
-    }
-]; //Can be removed when working
 var cart = {};
 var source = "https://picsum.photos/1200/400";
 var productsSorted;
@@ -94,15 +14,6 @@ function filterClick(){
     if(type.value != 0) displayProducts(productsSorted, asc, type.options[type.selectedIndex].text);
 }
 
-//displayProducts(products, false);
-/*productsSorted = products.sort(function(a, b) {
-    var keyA = Number(a.Price),
-    keyB = Number(b.Price);
-    if (keyA < keyB) return -1;
-    if (keyA > keyB) return 1;
-    return 0;
-  }); */
-
 fetch('./api/products/GetProductsList.php', {
     method: 'GET',
     headers: {
@@ -112,6 +23,7 @@ fetch('./api/products/GetProductsList.php', {
 })
 .then((response) => response.json())
 .then((data) => {
+    document.getElementById("cog").remove();
     displayProducts(data, false);
     productsSorted = data.sort(function(a, b) {
     var keyA = Number(a.Price),
@@ -134,7 +46,6 @@ fetch('./api/products/GetProductsList.php', {
 function displayProducts(data, asc, type){
     let cards = document.getElementById("containerCards");
     cards.innerHTML = "";
-    //data = products; //REMOVE WHEN CONNECTED TO DATABASE
     
     var onClick = (event) => {
         window.location.href = 'product.html?'+event.target.id;
