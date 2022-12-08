@@ -119,17 +119,19 @@ var cards = document.getElementById("containerCards");
 
 API_KEY = "AIzaSyCRGzepAJM76Tvb_PZ2HqU-T4fbT8zJXuA"
 
-displayBranches(branches);
-getCoordinates();
+//displayBranches(branches);
+//getCoordinates();
 
 fetch('./api/products/GetAllBranches.php', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
     }
-}).then((response) => {
-   //  displayBranches(response);
-   //  getCoordinates();
+   })
+   .then((response) => response.json())
+   .then((data) => {
+   displayBranches(response);
+   getCoordinates();
 })
     .catch((error) => {
         console.log(error);
