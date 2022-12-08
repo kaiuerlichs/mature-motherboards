@@ -29,7 +29,7 @@ function onClick() {
             cart = {};
         }
         cart = Object.assign(cart, { [targetID]: 1 });
-        spinner.classList.remove("fa-spin")
+        spinner.classList.remove("fa-spin");
         document.getElementById("addToCart").innerHTML = 'Add To Cart';
         document.getElementById("alert").classList.add("alert-primary");
         document.getElementById("alert").innerHTML = "Added Successfully!";
