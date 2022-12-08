@@ -24,6 +24,7 @@ fetch('./api/branch/GetAllBranches.php', {
    .then((response) => response.json())
    .then((data) => {
       console.log(data)
+      document.getElementById("cog").remove();
 
       displayBranches(data);
       getCoordinates(data);
