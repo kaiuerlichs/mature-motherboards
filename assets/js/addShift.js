@@ -1,15 +1,15 @@
 function addShift() {
-    let empValue = document.getElementById("employeeid").value
+    let empValue = document.getElementById("selectEmployeeAdd").value
     let startValue = document.getElementById("start").value
     let endValue = document.getElementById("end").value
 
     const data = {
         employeeID: empValue,
         startTime: startValue,
-        endTime: endValue,
+        endTime: endValue
     };
 
-    fetch('./api/products/shifts/addShift.php', {
+    fetch('./api/shifts/addShift.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -108,14 +108,17 @@ fetch('./api/products/GetProductsList.php', {
     headers: {
         'Content-Type': 'application/json',
     }
-}).then((response) => {
-    displayProducts(response, false);
-    productsSorted = response.sort(function(a, b) {
-        var keyA = Number(a.Price),
-        keyB = Number(b.Price);
-        if (keyA < keyB) return -1;
+
+})
+.then((response) => response.json())
+.then((data) => {
+    displayProducts(data, false);
+    productsSorted = data.sort(function(a, b) {
+    var keyA = Number(a.Price),
+    keyB = Number(b.Price);
+    if (keyA < keyB) return -1;
         if (keyA > keyB) return 1;
-        return 0;
+            return 0;
       });
 
 
@@ -131,7 +134,7 @@ fetch('./api/products/GetProductsList.php', {
 function displayProducts(data, asc, type){
     let cards = document.getElementById("containerCards");
     cards.innerHTML = "";
-    data = products; //REMOVE WHEN CONNECTED TO DATABASE
+    //data = products; //REMOVE WHEN CONNECTED TO DATABASE
     
     var onClick = (event) => {
         window.location.href = 'product.html?'+event.target.id;
