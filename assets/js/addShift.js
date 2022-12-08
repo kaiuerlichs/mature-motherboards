@@ -1,12 +1,14 @@
 function addShift() {
     let empValue = document.getElementById("selectEmployeeAdd").value
-    let startValue = document.getElementById("start").value
-    let endValue = document.getElementById("end").value
-
+    let startValue = document.getElementById("start").value.replace("T", " ")
+    let endValue = document.getElementById("end").value.replace("T", " ")
+    console.log(startValue)
     const data = {
-        employeeID: empValue,
-        startTime: startValue,
-        endTime: endValue
+        "shiftDetails":{
+            "startTime": startValue,
+            "endTime": endValue
+        },
+        "employeeID": empValue
     };
 
     fetch('./api/shifts/addShift.php', {
