@@ -587,7 +587,7 @@ class Database
 
         try {
             $q = $this->connection->prepare("
-                SELECT r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
+                SELECT r.RepairID, r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
                 FROM repairs r
                 JOIN employee e on r.BranchID = e.BranchID
                 WHERE e.EmployeeID = :emplID;
@@ -718,5 +718,39 @@ class Database
             throw new PDOException("Error committing transaction.", 3);
         }
         return $employeeinfo;
+    }
+
+    function UpdateRepairStatus($rid, $status){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        try {
+            $q = $this->connection->prepare("SELECT Status FROM repairs WHERE RepairID = :rID FOR UPDATE;");
+            $q->bindParam(":rID", $rid);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            $q = $this->connection->prepare("UPDATE repairs SET Status = :status WHERE RepairID = :rID;");
+            $q->bindParam(":rID", $rid);
+            $q->bindParam(":status", $status);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+        } catch (PDOException $e) {
+            error_log("Error updating status.");
+            $this->connection->rollBack();
+            throw new PDOException("Error updating status.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
     }
 }
