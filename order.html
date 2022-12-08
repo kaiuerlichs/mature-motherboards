@@ -40,7 +40,7 @@
                 <div class="card-body">
                 <h5 class="card-title" id="name"></h5>
                 <p class="card-text" id="description"></p>
-                <p class="card-text" id="price"></a>
+                <p class="card-text" id="charge"></a>
                 </div>
             </div>
         </div>
@@ -65,17 +65,16 @@ window.onload = function() {
         console.log(data);
 
         //Gets data from the API and writes it to the HTML
-        document.getElementById('address').innerHTML = "Address: " + data.address;
-        document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + data.dateOrdered;
+        document.getElementById('address1').innerHTML = "Address: " + data.Address;
+        document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + data.DatePlaced;
         document.getElementById('productImage').src = data.Image;
         document.getElementById('name').innerHTML = data.Name;
         document.getElementById('description').innerHTML = "Description:" + data.Description;
-        document.getElementById('price').innerHTML = "Price" + data.Price;
+        document.getElementById('charge').innerHTML = "Charge: " + data.Charge;
       })
       .catch(function(error) {
         console.log(error);
       });
   }
   </script>
-<!--script src="assets/js/orderEmail.js"></script><-->
 </html>
