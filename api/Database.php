@@ -563,6 +563,86 @@ class Database
         return $repairinfo;
     }
 
+    function GetRepairById($id){
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        try {
+            $q = $this->connection->prepare("
+                SELECT RepairID, r.BranchID, b.Name AS BranchName, Time, Duration, Description, Email, Status, FirstName, LastName, DatePlaced
+                FROM repairs r
+                JOIN branch b on r.BranchID = b.BranchID
+                WHERE RepairID = :repairID
+            ");
+            $q->bindParam(":repairID", $id);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $repairinfo = $q->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error finding shifts.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $repairinfo;
+    }
+
+    function GetOrderById($id){
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        try {
+            $q = $this->connection->prepare("
+                SELECT OrderID, DatePlaced, Email, charge, a.name, a.Address1, a.Address2, a.Address3, a.Town, a.PostCode
+                FROM `order`
+                JOIN address a on a.AddressID = `order`.AddressID
+                WHERE OrderID = :ordID;
+            ");
+            $q->bindParam(":ordID", $id);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $orderinfo = $q->fetch(PDO::FETCH_ASSOC);
+
+            $q = $this->connection->prepare("
+                SELECT p.Name, p.Image, p.Price
+                FROM `order contains product` ocp
+                JOIN product p on ocp.ProductID = p.ProductID
+                WHERE OrderID = :ordID;
+            ");
+            $q->bindParam(":ordID", $id);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $orderinfo["products"] = $q->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Error finding order data.");
+            $this->connection->rollBack();
+            throw new PDOException("Error finding order data.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $orderinfo;
+    }
+
     function getAllEmployees(){
         // Start new transaction
         if (!$this->connection->beginTransaction()) {
