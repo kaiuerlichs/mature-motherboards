@@ -122,14 +122,17 @@ API_KEY = "AIzaSyCRGzepAJM76Tvb_PZ2HqU-T4fbT8zJXuA"
 displayBranches(branches);
 getCoordinates();
 
-fetch('./api/products/GetAllBranches.php', {
+fetch('./api/branch/GetAllBranches.php', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
     }
-}).then((response) => {
-   //  displayBranches(response);
-   //  getCoordinates();
+   })
+   .then((response) => response.json())
+   .then((data) => {
+   displayBranches(data);
+   getCoordinates();
+   console.log(data)
 })
     .catch((error) => {
         console.log(error);
