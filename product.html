@@ -62,9 +62,9 @@
 
         <!--price, description, stock, production date, name, operating system, architecture, storage, memory, page count-->
 
-        <div class="container-fluid mt-3">
-            <div class="row">
-                <div class="col-4">
+        <div class="container-fluid mt-3 " style = "height: 800px;">
+            <div class="row"style = "height: 800px;">
+                <div class="col-4"style = "height: 800px;">
                     <div class="card" style="width: 22rem;">
                         <img class="card-img-top" src="" id="image" alt="Image of Product" hidden>
                     </div>
@@ -72,7 +72,6 @@
 
                 <div class="col-4">
                     <h3 id="name"></h3>
-                    <p id="description"></p>
                     <p id="price"></p>
                     <p id="type"></p>
                     <p id="stock"></p>
@@ -82,6 +81,7 @@
                     <p id="storage"></p>
                     <p id="memory"></p>
                     <p id="pageCount"></p>
+                    <p id="description"></p>
                     <button id="addToCart" type="button" onclick="onClick()" class="btn btn-primary" hidden>Add to cart</button>
                     <div id="alert" class="alert" role="alert" hidden>
                         You shouldn't see this xx
@@ -108,27 +108,33 @@
 
             var pathArray = window.location.search.split('?');
             let idNumber = pathArray[1];
-
+            
             fetch('./api/products/GetProductById.php?id=' + idNumber)
                 .then((resp) => resp.json())
                 .then(function (data) {
+                    
                     document.getElementById("cog").remove();
                     document.getElementById("image").removeAttribute("hidden");
                     document.getElementById("addToCart").removeAttribute("hidden");
-                    console.log(data);
                     //Gets data from the API and writes it to the HTML
                     document.getElementById('image').src = data.Image;
                     document.getElementById('name').innerHTML = data.Name;
-                    document.getElementById('price').innerHTML = "Price: " + data.Price;
+                    document.getElementById('price').innerHTML = "Price: £" + data.Price;
                     document.getElementById('type').innerHTML = "Type: " + data.Type;
                     document.getElementById('stock').innerHTML = "Stock: " + data.Stock;
                     document.getElementById('productionDate').innerHTML = "Production Date: " + data.ProductionDate;
-                    document.getElementById('os').innerHTML = "Operating System: " + data.OperatingSystem;
-                    document.getElementById('architecture').innerHTML = "Architecture: " + data.Architecture;
-                    document.getElementById('storage').innerHTML = "Storage: " + data.Storage;
-                    document.getElementById('memory').innerHTML = "Memory: " + data.Memory;
-                    document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;
+                    if (data.OperatingSystem!==null){document.getElementById('os').innerHTML = "Operating System: " + data.OperatingSystem;}
+                    if (data.Architecture!==null){document.getElementById('architecture').innerHTML = "Architecture: " + data.Architecture;}
+                    if (data.storage!=null){document.getElementById('storage').innerHTML = "Storage: " + data.storage;}
+                    if (data.Memory!=null){document.getElementById('memory').innerHTML = "Memory: " + data.Memory;}
+                    if (data.PageCount!==null){document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;}
                     document.getElementById('description').innerHTML = "Description: " + data.Description;
+                    
+                    // document.getElementById('architecture').innerHTML = "Architecture: " + data.Architecture;
+                    // document.getElementById('storage').innerHTML = "Storage: " + data.Storage;
+                    // document.getElementById('memory').innerHTML = "Memory: " + data.Memory;
+                    // document.getElementById('pageCount').innerHTML = "Page Count: " + data.PageCount;
+                    
                 })
                 .catch(function (error) {
                     console.log(error);
