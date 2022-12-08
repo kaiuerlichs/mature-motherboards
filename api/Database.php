@@ -539,7 +539,7 @@ class Database
 
         try {
             $q = $this->connection->prepare("
-                SELECT r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
+                SELECT r.RepairID, r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
                 FROM repairs r
                 JOIN employee e on r.BranchID = e.BranchID
                 WHERE e.EmployeeID = :emplID;
