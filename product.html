@@ -54,7 +54,10 @@
     </header>
 
     <section>
-
+        <div id="cog" class="row d-flex justify-content-center" style="font-size: 3rem;">
+            <script src="https://kit.fontawesome.com/2f2028059a.js" crossorigin="anonymous"></script>
+            <i class="fa-solid fa-gear fa-spin"></i>
+        </div>
         <!--Product Display-->
 
         <!--price, description, stock, production date, name, operating system, architecture, storage, memory, page count-->
@@ -106,6 +109,7 @@
             fetch('./api/products/GetProductById.php?id=' + idNumber)
                 .then((resp) => resp.json())
                 .then(function (data) {
+                    document.getElementById("cog").remove();
                     console.log(data);
                     //Gets data from the API and writes it to the HTML
                     document.getElementById('image').src = data.Image;
