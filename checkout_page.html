@@ -1,116 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="stylesheet.css">
-    <title>Checkout - Mature Motherboards</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="stylesheet.css">
+  <title>Checkout - Mature Motherboards</title>
 </head>
+
 <body>
-    <header>
+  <header>
 
-        <!--NAVIGATION BAR-->
+    <!--NAVIGATION BAR-->
 
-        <nav class="navpadding navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand text-primary">Mature Motherboards</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Shop <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Repair</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="branch.html">Branches</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-
-        <!--JUMBOTRON-->
-        
-        <div class="jumbotron jumbotron-fluid jumbotron-image" style="background-image: url(images/goldMotherboard.jpeg);">
-          <h1 class="text-center text-white fs-1 fw-bold">Checkout</h1>
+    <nav class="navpadding navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand text-primary" href="#">Mature Motherboards</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="customer_view.html">Shop <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="customer_repair_page.html">Repair</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="branch.html">Branches</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a href="checkout_page.html"><button class="btn btn-primary mr-2"><i class="fa-solid fa-cart-shopping"></i>
+                Checkout</button></a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary" href="login_page.html">Sign In</a>
+          </li>
+        </ul>
       </div>
+    </nav>
 
-        <div class="container">
-    
-          <div class="row">
-            <div class="col-md-4 order-md-2 mb-4">
-              <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">Your cart</span>
-                <span class="badge badge-secondary badge-pill" id="totalNumber"></span>
-              </h4>
-              <ul class="list-group mb-3" id="cart">
+    <!--JUMBOTRON-->
+
+    <div class="jumbotron jumbotron-fluid jumbotron-image" style="background-image: url(images/goldMotherboard.jpeg);">
+      <h1 class="text-center text-white fs-1 fw-bold">Checkout</h1>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill" id="totalNumber"></span>
+          </h4>
+          <ul class="list-group mb-3" id="cart">
 
 
-              </ul>
+          </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Billing address</h4>
+          <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid last name is required.
+                </div>
+              </div>
             </div>
-            <div class="col-md-8 order-md-1">
-              <h4 class="mb-3">Billing address</h4>
-              <form class="needs-validation" novalidate>
+
+
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+            </div>
+
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <label for="country">Country</label>
+                <select class="custom-select d-block w-100" id="country" required>
+                  <option value="">Choose...</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Ireland">Ireland</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid country.
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="zip">Zip</label>
+                <input type="text" class="form-control" id="zip" placeholder="" required>
+                <div class="invalid-feedback">
+                  Post code required.
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="same-address" onclick="checkBoxShipping()"
+                unchecked>
+              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
+                address</label>
+            </div>
+            <hr class="mb-4" id="hrShipping">
+            <section style="all: revert;" id="sectionShipping">
+              <h4 class="mb-3">Shipping address</h4>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstNameShipping">First name</label>
+                  <input type="text" class="form-control" id="firstNameShipping" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastNameShipping">Last name</label>
+                  <input type="text" class="form-control" id="lastNameShipping" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    Valid last name is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="addressShipping">Address</label>
+                <input type="text" class="form-control" id="addressShipping" placeholder="1234 Main St" required>
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+
+    
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <label for="firstName">First name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                      Valid first name is required.
-                    </div>
+                    <label for="address3">Address 3<span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" id="address3" placeholder="Apartment or suite">
                   </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                      Valid last name is required.
-                    </div>
-                  </div>
-                </div>
-    
-    
-                <div class="mb-3">
-                  <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-                  <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                  </div>
-                </div>
-    
-                <div class="mb-3">
-                  <label for="address">Address</label>
-                  <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                  <div class="invalid-feedback">
-                    Please enter your shipping address.
-                  </div>
-                </div>
-    
-                <div class="mb-3">
-                  <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                </div>
-    
-                <div class="row">
-                  <div class="col-md-5 mb-3">
-                    <label for="country">Country</label>
-                    <select class="custom-select d-block w-100" id="country" required>
-                      <option value="">Choose...</option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="Ireland">Ireland</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please select a valid country.
-                    </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="town">Town</label>
+                    <input type="text" class="form-control" id="town" placeholder="Town" required>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label for="zip">Zip</label>
@@ -118,12 +180,15 @@
                     <div class="invalid-feedback">
                       Post code required.
                     </div>
+
                   </div>
                 </div>
-                <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="same-address" onclick="checkBoxShipping()" unchecked>
-                  <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                <div class="col-md-3 mb-3">
+                  <label for="zipShipping">Zip</label>
+                  <input type="text" class="form-control" id="zipShipping" placeholder="" required>
+                  <div class="invalid-feedback">
+                    Post code required.
+                  </div>
                 </div>
                 <hr class="mb-4" id="hrShipping">
                 <section style="all: revert;" id="sectionShipping">
@@ -157,19 +222,21 @@
                         <label for="address2Shipping">Address 2 <span class="text-muted">(Optional)</span></label>
                         <input type="text" class="form-control" id="address2Shipping" placeholder="Apartment or suite">
                       </div>
+
           
                       <div class="row">
-                        <div class="col-md-5 mb-3">
-                          <label for="countryShipping">Country</label>
-                          <select class="custom-select d-block w-100" id="countryShipping" required>
-                            <option value="">Choose...</option>
-                            <option value="United Kingdom">United Kingdom</option>
-                            <option value="Ireland">Ireland</option>
-                          </select>
-                          <div class="invalid-feedback">
-                            Please select a valid country.
-                          </div>
-                        </div>
+                        
+                      <div class="col-md-6 mb-3">
+                        <label for="address3Shipping">Address 3 <span class="text-muted">(Optional)</span></label>
+                        <input type="text" class="form-control" id="address3Shipping" placeholder="Apartment or suite">
+                      </div>
+
+                      <div class="col-md-3 mb-3">
+                        <label for="townShipping">Town</label>
+                        <input type="text" class="form-control" id="townShipping" placeholder="Town" required>
+                      </div>
+
+
                         <div class="col-md-3 mb-3">
                           <label for="zipShipping">Zip</label>
                           <input type="text" class="form-control" id="zipShipping" placeholder="" required>
@@ -184,16 +251,6 @@
     
                 <h4 class="mb-3">Payment</h4>
     
-                <div class="d-block my-3">
-                  <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                    <label class="custom-control-label" for="credit">Credit card</label>
-                  </div>
-                  <div class="custom-control custom-radio">
-                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="debit">Debit card</label>
-                  </div>
-                </div>
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="cc-name">Name on card</label>
@@ -211,70 +268,44 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-3 mb-3">
-                    <label for="cc-expiration">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                    <div class="invalid-feedback">
-                      Expiration date required
-                    </div>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <label for="cc-expiration">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                    <div class="invalid-feedback">
-                      Security code required
-                    </div>
-                  </div>
-                </div>
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-              </form>
+              </div>
             </div>
-          </div>
-    
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="cc-expiration">Expiration</label>
+                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                <div class="invalid-feedback">
+                  Expiration date required
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cc-expiration">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                <div class="invalid-feedback">
+                  Security code required
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+          </form>
         </div>
-        <p>
-          
-        </p>
-    </header>
+      </div>
+
+    </div>
+    <p>
+
+    </p>
+  </header>
+
 
   
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script src="assets/js/checkout.js"></script>
-    <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
 
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if(document.getElementById("same-address").checked == true){
-                document.getElementById("firstNameShipping").value = document.getElementById("firstName").value;
-                document.getElementById("lastNameShipping").value = document.getElementById("lastName").value;
-                document.getElementById("addressShipping").value = document.getElementById("address").value;
-                document.getElementById("address2Shipping").value = document.getElementById("address2").value;
-                document.getElementById("countryShipping").value = document.getElementById("country").value;
-                document.getElementById("zipShipping").value = document.getElementById("zip").value;
-              }
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
-    </script>
 
 </body>
+
 </html>

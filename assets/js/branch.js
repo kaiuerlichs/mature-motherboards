@@ -119,8 +119,8 @@ var cards = document.getElementById("containerCards");
 
 API_KEY = "AIzaSyCRGzepAJM76Tvb_PZ2HqU-T4fbT8zJXuA"
 
-displayBranches(branches);
-getCoordinates();
+//displayBranches(branches);
+//getCoordinates();
 
 fetch('./api/branch/GetAllBranches.php', {
     method: 'GET',
@@ -130,9 +130,11 @@ fetch('./api/branch/GetAllBranches.php', {
    })
    .then((response) => response.json())
    .then((data) => {
+
    displayBranches(data);
    getCoordinates();
    console.log(data)
+
 })
     .catch((error) => {
         console.log(error);
