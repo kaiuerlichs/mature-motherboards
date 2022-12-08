@@ -23,8 +23,8 @@
     <!--ORDER INFORMATION-->
 
     <h3 class="mt-3">Your orders information:</h3>
-    <p id="address">Address: </p>
-    <p id="dateOrdered">Date ordered: </p>
+    <p id="address"></p>
+    <p id="dateOrdered"></p>
 
     <section>
 
@@ -38,9 +38,9 @@
             <div class="container-fluid mt-3">
                 <img class="card-img-top" src="..." id="productImage" alt="Product Image"> 
                 <div class="card-body">
-                <h5 class="card-title" id="name">Product: </h5>
-                <p class="card-text" id="description">Description: </p>
-                <p class="card-text" id="price">Price: </a>
+                <h5 class="card-title" id="name"></h5>
+                <p class="card-text" id="description"></p>
+                <p class="card-text" id="price"></a>
                 </div>
             </div>
         </div>
@@ -48,41 +48,34 @@
     </section>
 
 </body>
-<script src="assets/js/order.js"></script>
 <script>
-    //call main when website loads
-    window.onload = function() {
-      main();
-    }
-  
-    function createNode(element) {
-      return document.createElement(element);
-    }
-  
-    function append(parent, el) {
-      return parent.appendChild(el);
-    }
-  
-    function main() {
-  
-      let webURL = window.location.href
-  
-      fetch(url)
-        .then((resp) => resp.json())
-        .then(function(value) {
-          console.log(value);
-  
-          //Gets value from the API and writes it to the HTML
-          document.getElementById('address').innerHTML = "Address: " + value.address;
-          document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + value.dateOrdered;
-          document.getElementById('productImage').src = value.address;
-          document.getElementById('name').innerHTML = value.dateOrdered;
-          document.getElementById('description').innerHTML = value.address;
-          document.getElementById('price').innerHTML = value.price;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
+//call main when website loads
+window.onload = function() {
+    main();
+  }
+
+  function main() {
+
+    var pathArray = window.location.search.split('?');
+    let idNumber = pathArray[1];
+
+    fetch('./api/orders/GetOrderById.php?id=' + idNumber)
+      .then((resp) => resp.json())
+      .then(function(data) {
+        console.log(data);
+
+        //Gets data from the API and writes it to the HTML
+        document.getElementById('address').innerHTML = "Address: " + data.address;
+        document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + data.dateOrdered;
+        document.getElementById('productImage').src = data.Image;
+        document.getElementById('name').innerHTML = data.Name;
+        document.getElementById('description').innerHTML = "Description:" + data.Description;
+        document.getElementById('price').innerHTML = "Price" + data.Price;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
   </script>
+<!--script src="assets/js/orderEmail.js"></script><-->
 </html>

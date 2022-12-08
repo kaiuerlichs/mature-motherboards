@@ -46,14 +46,14 @@
     function main() {
         var pathArray = window.location.search.split('?');
         let idNumber = pathArray[1];
-        fetch('./api/products/GetRepairWithId.php?id=' + idNumber)
+        fetch('./api/repairs/GetRepairById.php?id=' + idNumber)
         .then((resp) => resp.json())
         .then(function(value) {
             console.log(value);
     
             //Gets value from the API and writes it to the HTML
-            document.getElementById('repairNo').innerHTML = "Repair Number: " + value.repairNo;
-            document.getElementById('stage').innerHTML = "Repair Stage: " + value.stage;
+            document.getElementById('repairNo').innerHTML = "Repair Number: " + value.RepairID;
+            document.getElementById('stage').innerHTML = "Repair Stage: " + value.Status;
         })
         .catch(function(error) {
             console.log(error);
