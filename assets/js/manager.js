@@ -4,7 +4,7 @@ function addProduct() {
     let typeValue = document.getElementById("type").value
     let priceValue = document.getElementById("price").value
     let stockValue = document.getElementById("stock").value
-    let dateValue = document.getElementById("date").value
+    let dateValue = document.getElementById("date").value.replace("T", " ")
     let osValue = document.getElementById("os").value
     let archValue = document.getElementById("architecture").value
     let storageValue = document.getElementById("storage").value
@@ -13,19 +13,20 @@ function addProduct() {
     let linkValue = document.getElementById("link").value
 
     const data = {
-        name: nameValue,
-        description: descValue,
-        type: typeValue,
-        price: priceValue,
-        stock: stockValue,
-        date: dateValue,
-        os: osValue,
-        architecture: archValue,
-        storage: storageValue,
-        memory: ramValue,
-        pageCount: pagesValue,
-        link: linkValue
+        "Name": nameValue,
+        "Desc": descValue,
+        "Type": typeValue,
+        "Price": priceValue,
+        "Stock": stockValue,
+        "date": dateValue,
+        "OperatingSystem": osValue,
+        "Architecture": archValue,
+        "Storage": storageValue,
+        "Memory": ramValue,
+        "PageCount": pagesValue,
+        "Image": linkValue
     };
+    console.log(JSON.stringify(data))
 
     fetch('./api/products/AddProduct.php', {
         method: 'POST',
