@@ -5,21 +5,19 @@ session_start();
 if ($_SESSION["loggedIn"]) {
     $redirect = "";
 
-    if ($role == 1)
+    if ($_SESSION["permissions"] == 1)
         $redirect = "./manager_view.html";
-    elseif ($role == 2)
+    elseif ($_SESSION["permissions"] == 2)
         $redirect = "./repair_view.html";
-    elseif ($role == 3)
+    elseif ($_SESSION["permissions"] == 3)
         $redirect = "./sales_view.html";
 
-    echo json_encode(
-        array(
-            "message" => "Redirection details",
-            "user" => $email,
-            "redirectUrl" => $redirect,
-            "code" => 900
-        )
-    );
+        echo json_encode(
+            array(
+                "redirectUrl" => $redirect,
+                "code" => 201
+            )
+        );
 }
 else{
     echo json_encode(
