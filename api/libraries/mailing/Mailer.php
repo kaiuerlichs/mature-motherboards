@@ -54,7 +54,7 @@ class Mailer
         $html = str_replace("!!FIRSTNAME", $firstname, $html);
         $html = str_replace("!!LASTNAME", $lastname, $html);
         $html = str_replace("!!REPAIRNUM", $repairID, $html);
-        $html = str_replace("!!REPAIRURL", "http://localhost:8000/repair.html?" . $orderID, $html);
+        $html = str_replace("!!REPAIRURL", "http://localhost:8000/repair.html?" . $repairID, $html);
         $mail->msgHTML($html, __DIR__ . "/repairConfirmation");
 
         //Replace the plain text body with one created manually
