@@ -288,7 +288,7 @@ class Database
             throw new PDOException("Error committing transaction.", 7);
         }
 
-        
+        return $ordID;
     }
 
     function GetAllBranches()
