@@ -27,12 +27,11 @@ We have built a prototype website to help aid in bringing this company into the 
 
 
 
-Prerequisites:
+Steps to run:
 1. Must have PHP7+ installed on your machine.
 2. Must have PDO mySQL drivers installed on your machine.
 3. Must connect to the University of Dundee computing VPN in order to access the server.
-\
-Steps to run program:
+
 1. You will need to clone down the repo (git clone https://github.com/kaiuerlichs/mature-motherboards)
 2. On a terminal of your machine that is running php change to the mature motherboards directory that you have just cloned down. Once inside this run the command php -S localhost:8000
 3. Navigate to your browser and type in the web address localhost:8000/index.html to begin using the website.
