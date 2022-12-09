@@ -143,9 +143,16 @@ class Database
                 }
             }
         } catch (PDOException $e) {
+            error_log($e);
             error_log("Error calculating total.");
             $this->connection->rollBack();
             throw new PDOException("Error calculating total.", 5);
+        }
+         // Commit transaction
+         if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 7);
         }
         return $ordID;
     }

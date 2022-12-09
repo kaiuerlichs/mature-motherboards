@@ -7,6 +7,8 @@ require_once("../libraries/mailing/Mailer.php");
 $db = new Database();
 $db->connect();
 
+session_start();
+
 header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
