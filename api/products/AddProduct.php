@@ -9,10 +9,10 @@ $db = new Database();
 $db->connect();
 
 header('Content-Type: application/json; charset=utf-8');
-
+session_start();
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-if ($_SESSION['permission'] != 1){
+if ($_SESSION['permissions'] != 1){
     //not a manager
     echo json_encode(array(
         "error" => "Not logged in as a manager",
@@ -20,7 +20,7 @@ if ($_SESSION['permission'] != 1){
     ));
     return;
 }
-if (!isset($_POST['name'])){
+if (!isset($_POST['Name'])){
     // Missing keys
     echo json_encode(array(
         "error" => "Missing name.",
@@ -28,7 +28,7 @@ if (!isset($_POST['name'])){
     ));
     return;
 }
-if (!isset($_POST['desc'])){
+if (!isset($_POST['Desc'])){
     // Missing keys
     echo json_encode(array(
         "error" => "Missing description",
@@ -36,7 +36,7 @@ if (!isset($_POST['desc'])){
     ));
     return;
 }
-if (!isset($_POST['type'])){
+if (!isset($_POST['Type'])){
     // Missing keys
     echo json_encode(array(
         "error" => "Missing type.",
@@ -44,7 +44,7 @@ if (!isset($_POST['type'])){
     ));
     return;
 }
-if (!isset($_POST['stock'])){
+if (!isset($_POST['Stock'])){
     // Missing keys
     echo json_encode(array(
         "error" => "Missing stock.",
@@ -61,7 +61,7 @@ if (!isset($_POST['Image'])){
     return;
 }
 if (!isset($_POST['ProductionDate'])){
-    $_POST['ProductionDate'] = "";
+    $_POST['ProductionDate'] = NULL;
 }
 if (!isset($_POST['Architecture'])) {
     $_POST['Architecture'] = "";
@@ -69,8 +69,8 @@ if (!isset($_POST['Architecture'])) {
 if (!isset($_POST['OperatingSystem'])) {
     $_POST['OperatingSystem']= "";
 }
-if (!isset($_POST['PageCount'])) {
-    $_POST['PageCount'] = "";
+if ($_POST['PageCount']=="") {
+    $_POST['PageCount'] = 0;
 }
 
 try{

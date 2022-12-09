@@ -54,6 +54,14 @@ class Database
         throw new InvalidArgumentException("Invalid email.");
     }
 
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
+
     function GetEmployeeData($emailIn)
     {
         $q = $this->connection->prepare("SELECT RoleID, EmployeeID FROM employee WHERE Email = :emailIn");
@@ -579,22 +587,31 @@ class Database
     
     function addProduct($productinfo){
 
+        //Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+        foreach ($productinfo as $prod){
+            error_log($prod);
+        }
         
        
         // Create Order
         try {
-            $q = $this->connection->prepare("INSERT INTO `product` (Name, Desc, Type, Price, Stock, Image, ProductionDate, Architecture, OperatingSystem, PageCount) VALUES (:name, :desc, :type, :price, :stock, :img, :date, :arch, :os, :pgCount);");
+            $q = $this->connection->prepare("INSERT INTO `product` (Name, Description, Type, Price, Stock, Image, ProductionDate, Architecture, OperatingSystem, PageCount) VALUES (:name, :desc, :type, :price, :stock, :img, :date, :arch, :os, :pgCount);");
             
             $q->bindParam(":name", $productinfo["Name"]);
             $q->bindParam(":desc", $productinfo["Desc"]);
-            $q->bindParam(":addrID", $productinfo["Type"]);
+            $q->bindParam(":type", $productinfo["Type"]);
             $q->bindParam(":stock", $productinfo["Stock"]);
             $q->bindParam(":img", $productinfo["Image"]);
             $q->bindParam(":price", $productinfo["Price"]);
             $q->bindParam(":date", $productinfo["ProductionDate"]);
             $q->bindParam(":arch", $productinfo["Architecture"]);
             $q->bindParam(":os", $productinfo["OperatingSystem"]);
-            $q->bindParam(":pgcount", $productinfo["PageCount"]);
+            $q->bindParam(":pgCount", $productinfo["PageCount"]);
+            
 
             if (!$q->execute()) {
                 throw new PDOException();
@@ -605,11 +622,17 @@ class Database
                 $prodRef = $result["id"];
             }
         } catch (PDOException $e) {
+            error_log($e);
             error_log("Error creating order.");
             $this->connection->rollBack();
             throw new PDOException("Error creating order.", 3);
         }
-
+        //Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
         return $prodRef;
     }
 
