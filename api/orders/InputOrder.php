@@ -11,7 +11,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$topLevelKeys = ["email", "productID"];
+$topLevelKeys = ["email", "productID", "charge"];
 
 
 foreach($topLevelKeys as $key){
@@ -29,7 +29,7 @@ foreach($topLevelKeys as $key){
 
 
 try{
-    $orderNumber = $db->InputOrder($_POST["email"], $_POST["productID"]);
+    $orderNumber = $db->InputOrder($_POST["email"], $_POST["productID"], $_POST["charge"]);
 
     // Order created successfully
     echo json_encode(array(

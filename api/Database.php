@@ -76,17 +76,20 @@ class Database
         throw new InvalidArgumentException("Invalid email.");
     }
 
-    function InputOrder($email, $productID){
+    function InputOrder($email, $productID, $charge){
         // Start new transaction
         if (!$this->connection->beginTransaction()) {
             error_log("Error starting transaction.");
             throw new PDOException("Error starting transaction.", 1);
         }
+        $paymentref = "Cash Payment";
         $addrID = 66;
         try {
-            $q = $this->connection->prepare("INSERT INTO `order` (DatePlaced, Email, AddressID) VALUES (CURDATE(), :email, :addrID);");
-            $q->bindParam(":email", $orderDetails["email"]);
+            $q = $this->connection->prepare("INSERT INTO `order` (DatePlaced, Email, AddressID, charge, PaymentReference) VALUES (CURDATE(), :email, :addrID, :charge, :payRef);");
+            $q->bindParam(":email", $email);
             $q->bindParam(":addrID", $addrID );
+            $q->bindParam(":charge", $charge );
+            $q->bindParam(":payRef", $paymentref );
 
             if (!$q->execute()) {
                 throw new PDOException();
@@ -97,6 +100,7 @@ class Database
                 $ordID = $result["id"];
             }
         } catch (PDOException $e) {
+            error_log($e);
             error_log("Error creating order.");
             $this->connection->rollBack();
             throw new PDOException("Error creating order.", 3);
