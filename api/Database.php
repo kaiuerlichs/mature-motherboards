@@ -83,7 +83,7 @@ class Database
             throw new PDOException("Error starting transaction.", 1);
         }
         $paymentref = "Cash Payment";
-        $addrID = 66;
+        $addrID = 12;
         try {
             $q = $this->connection->prepare("INSERT INTO `order` (DatePlaced, Email, AddressID, charge, PaymentReference) VALUES (CURDATE(), :email, :addrID, :charge, :payRef);");
             $q->bindParam(":email", $email);
