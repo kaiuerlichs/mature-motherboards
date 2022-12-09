@@ -1,4 +1,5 @@
 function addProduct() {
+    document.getElementById("addProductButton").innerHTML='<i class="fa-solid fa-gear fa-spin"></i>'
     let nameValue = document.getElementById("name").value
     let descValue = document.getElementById("description").value
     let typeValue = document.getElementById("type").value
@@ -37,9 +38,39 @@ function addProduct() {
     })
         .then((response) => response.json())
         .then((data) => {
+            document.getElementById("addProductButton").innerHTML='Submit'
             console.log(response)
         })
         .catch((error) => {
+            document.getElementById("addProductButton").innerHTML='Submit'
             console.log(error);
+        });
+}
+function addStock() {
+    document.getElementById("addStockButton").innerHTML='<i class="fa-solid fa-gear fa-spin"></i>'
+    let IDValue = document.getElementById("productID").value
+    let quanValue = document.getElementById("quantity").value
+
+    const data = {
+        "productID": IDValue,
+        "stock": quanValue,
+    };
+    console.log(JSON.stringify(data))
+
+    fetch('./api/products/IncreaseStock.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(response)
+            document.getElementById("addStockButton").innerHTML='Submit'
+        })
+        .catch((error) => {
+            console.log(error);
+            document.getElementById("addStockButton").innerHTML='Submit'
         });
 }
