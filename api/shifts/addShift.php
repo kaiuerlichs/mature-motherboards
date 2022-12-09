@@ -6,6 +6,8 @@ require_once(__DIR__ . "/../Database.php");
 $db = new Database();
 $db->connect();
 
+session_start();
+
 header('Content-Type: application/json; charset=utf-8');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
@@ -32,6 +34,25 @@ foreach($shiftKeys as $key){
         return;
     }
 }
+
+if (!isset($_SESSION["permissions"])){
+    // not loggedin
+    echo json_encode(array(
+        "error" => "Not logged in.",
+        "code" => 302
+    ));
+    return;
+}
+if ($_SESSION["permissions"]!=1){
+    // not manager
+    echo json_encode(array(
+        "error" => "Not a manager.",
+        "code" => 302
+    ));
+    return;
+
+}
+
 try {
     $shiftNumber = $db->addShift($_POST["shiftDetails"], $_POST["employeeID"]);
     echo json_encode(array(
