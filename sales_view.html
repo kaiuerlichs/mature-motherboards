@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="stylesheet.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
   <title>Sales Employee - Mature Motherboards</title>
 
   <script src="https://kit.fontawesome.com/2f2028059a.js" crossorigin="anonymous"></script>
@@ -52,29 +55,27 @@
             <div class="card-body">
               <h3>Schedule Repairs</h3>
               <form>
+
                 <div class="form-group">
-                  <input type="text" class="form-control" id="branchID" placeholder="branch ID">
+                  <input type="datetime-local" class="form-control" id="date" placeholder="Date" required>
                 </div>
                 <div class="form-group">
-                  <input type="datetime-local" class="form-control" id="date" placeholder="Date">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="duration" placeholder="Duration">
+                  <input type="text" class="form-control" id="duration" placeholder="Duration" required>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="description" placeholder="Description">
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="email" placeholder="email">
+                  <input type="text" class="form-control" id="email" placeholder="email" required>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="firstname" placeholder="First Name">
+                  <input type="text" class="form-control" id="firstname" placeholder="First Name" required>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="lastname" placeholder="Last Name">
                 </div>
               </form>
-              <button onclick="scheduleRepair()" class="btn btn-primary">Submit</button>
+              <button onclick="scheduleRepair()" id="repairButton" class="btn btn-primary">Submit</button>
               </form>
             </div>
           </div>
@@ -83,33 +84,18 @@
         <div class="col-md-6 p-2">
           <div class="card w-100">
             <div class="card-body">
-              <h3>Input Orders</h3>
-              <form>
+              <h3>Input Sale</h3>
+              <form onsubmit="inputOrder()">
                 <div class="form-group">
-                  <input type="text" class="form-control" id="email" placeholder="Customer Email">
+                  <input type="text" class="form-control" id="emailOrder" placeholder="Customer Email">
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="productNo" placeholder="Product Number">
                 </div>
                 <div class="form-group">
-                  <input type="date" class="form-control" id="date" placeholder="Date">
+                  <input type="text" class="form-control" id="charge" placeholder="Charge">
                 </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="addressLine1" placeholder="Address Line 1">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="addressLine2" placeholder="Address Line 2">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="addressLine3" placeholder="Address Line 3">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="town" placeholder="Address Town">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="postcode" placeholder="Postcode">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" on>Submit</button>
               </form>
             </div>
 
@@ -141,6 +127,7 @@
   </section>
   <script src="assets/js/scheduleRepair.js"></script>
   <script src="assets/js/shifts.js"></script>
+  <script src="assets/js/inputOrders.js"></script>
 </body>
 
 </html>

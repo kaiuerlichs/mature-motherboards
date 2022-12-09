@@ -54,6 +54,14 @@ class Database
         throw new InvalidArgumentException("Invalid email.");
     }
 
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
+
     function GetEmployeeData($emailIn)
     {
         $q = $this->connection->prepare("SELECT RoleID, EmployeeID FROM employee WHERE Email = :emailIn");
@@ -67,6 +75,89 @@ class Database
 
         throw new InvalidArgumentException("Invalid email.");
     }
+
+    function InputOrder($email, $productID, $charge){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+        $paymentref = "Cash Payment";
+        $addrID = 66;
+        try {
+            $q = $this->connection->prepare("INSERT INTO `order` (DatePlaced, Email, AddressID, charge, PaymentReference) VALUES (CURDATE(), :email, :addrID, :charge, :payRef);");
+            $q->bindParam(":email", $email);
+            $q->bindParam(":addrID", $addrID );
+            $q->bindParam(":charge", $charge );
+            $q->bindParam(":payRef", $paymentref );
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            // Query for new order ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $ordID = $result["id"];
+            }
+        } catch (PDOException $e) {
+            error_log($e);
+            error_log("Error creating order.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating order.", 3);
+        }
+
+        // // Get each item by ID and check availability, add price to total
+        $totalAmount = 0;
+
+        
+        try {
+            $q = $this->connection->prepare("SELECT Price, Stock FROM product WHERE ProductID = :id FOR UPDATE;");
+            $q->bindParam(":id", $productID);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            foreach ($q->fetchAll() as $result) {
+                if ($result["Stock"] > 0) {
+                    $totalAmount += $result["Price"];
+
+                    // Update stock
+                    $q = $this->connection->prepare("UPDATE product SET Stock = Stock - 1 WHERE ProductID = :prodID;");
+                    $q->bindParam(":prodID", $productID);
+                    if (!$q->execute()) {
+                        throw new PDOException();
+                    }
+
+                    // Add row to joining table
+                    $q = $this->connection->prepare("INSERT INTO `order contains product` (ProductID, OrderID) VALUES (:prodID, :ordID);");
+                    $q->bindParam(":prodID", $productID);
+                    $q->bindParam(":ordID", $ordID);
+                    if (!$q->execute()) {
+                        throw new PDOException();
+                    }
+                } else {
+                    error_log("Not enough stock.");
+                    $this->connection->rollBack();
+                    throw new PDOException("Not enough stock for " . $productID . ".", 4);
+                }
+            }
+        } catch (PDOException $e) {
+            error_log($e);
+            error_log("Error calculating total.");
+            $this->connection->rollBack();
+            throw new PDOException("Error calculating total.", 5);
+        }
+         // Commit transaction
+         if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 7);
+        }
+        return $ordID;
+    }
+
+    
 
     function CreateOrder($products, $orderDetails, $cardDetails, $addressDetails)
     {
@@ -197,7 +288,7 @@ class Database
             throw new PDOException("Error committing transaction.", 7);
         }
 
-        return $ordID;
+        
     }
 
     function GetAllBranches()
@@ -339,6 +430,54 @@ class Database
         }
         return $iteminfo;
     }
+    function scheduleRepairByEmployee($scheduleDetails, $employeeID)
+    {
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        // Create repair slot
+        try {
+            $ts = date("Y-m-d H:i:s", strtotime($scheduleDetails["Time"]));
+            // Prepare statement to insert repair into db
+            $q = $this->connection->prepare("INSERT INTO repairs (BranchID, Time,
+            Duration, Description, Email, FirstName,
+            LastName, DatePlaced)
+            VALUES ((SELECT BranchId from employee WHERE EmployeeID = :emplID), :time, :duration, :description, :email,
+            :firstname, :lastname, CURDATE());");
+            $q->bindParam(":emplID", $employeeID);
+            $q->bindParam(":time", $ts);
+            $q->bindParam(":duration", $scheduleDetails["Duration"]);
+            $q->bindParam(":description", $scheduleDetails["Description"]);
+            $q->bindParam(":email", $scheduleDetails["Email"]);
+            $q->bindParam(":firstname", $scheduleDetails["firstname"]);
+            $q->bindParam(":lastname", $scheduleDetails["lastname"]);
+
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            // Query for new repair ID (no user input -> query is safe)
+            foreach ($this->connection->query("SELECT LAST_INSERT_ID() AS 'id'") as $result) {
+                $scheduleID = $result["id"];
+            }
+
+            // Commit transaction
+            if (!$this->connection->commit()) {
+                error_log("Error committing transaction.");
+                $this->connection->rollBack();
+                throw new PDOException("Error committing transaction.", 3);
+            }
+        } catch (PDOException $e) {
+            throw $e;
+            error_log("Error creating repair.");
+            $this->connection->rollBack();
+            throw new PDOException("Error creating repair slot.", 2);
+        }
+        return $scheduleID;
+    }
 
     function scheduleRepair($scheduleDetails)
     {
@@ -459,22 +598,31 @@ class Database
     
     function addProduct($productinfo){
 
+        //Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+        foreach ($productinfo as $prod){
+            error_log($prod);
+        }
         
        
         // Create Order
         try {
-            $q = $this->connection->prepare("INSERT INTO `product` (Name, Desc, Type, Price, Stock, Image, ProductionDate, Architecture, OperatingSystem, PageCount) VALUES (:name, :desc, :type, :price, :stock, :img, :date, :arch, :os, :pgCount);");
+            $q = $this->connection->prepare("INSERT INTO `product` (Name, Description, Type, Price, Stock, Image, ProductionDate, Architecture, OperatingSystem, PageCount) VALUES (:name, :desc, :type, :price, :stock, :img, :date, :arch, :os, :pgCount);");
             
             $q->bindParam(":name", $productinfo["Name"]);
             $q->bindParam(":desc", $productinfo["Desc"]);
-            $q->bindParam(":addrID", $productinfo["Type"]);
+            $q->bindParam(":type", $productinfo["Type"]);
             $q->bindParam(":stock", $productinfo["Stock"]);
             $q->bindParam(":img", $productinfo["Image"]);
             $q->bindParam(":price", $productinfo["Price"]);
             $q->bindParam(":date", $productinfo["ProductionDate"]);
             $q->bindParam(":arch", $productinfo["Architecture"]);
             $q->bindParam(":os", $productinfo["OperatingSystem"]);
-            $q->bindParam(":pgcount", $productinfo["PageCount"]);
+            $q->bindParam(":pgCount", $productinfo["PageCount"]);
+            
 
             if (!$q->execute()) {
                 throw new PDOException();
@@ -485,15 +633,21 @@ class Database
                 $prodRef = $result["id"];
             }
         } catch (PDOException $e) {
+            error_log($e);
             error_log("Error creating order.");
             $this->connection->rollBack();
             throw new PDOException("Error creating order.", 3);
         }
-
+        //Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
         return $prodRef;
     }
 
-    function addShift($shiftDetails) {
+    function addShift($shiftDetails, $employeeID) {
         //Start new transaction
         if (!$this->connection->beginTransaction()) {
             error_log("Error starting transaction.");
@@ -506,7 +660,7 @@ class Database
             $q = $this->connection->prepare("INSERT INTO shift (Start, End, EmployeeID) VALUES (:start, :end, :employeeid);");
             $q->bindParam(":start", date("Y-m-d H:i:s", strtotime($shiftDetails["startTime"])));
             $q->bindParam(":end", date("Y-m-d H:i:s", strtotime($shiftDetails["endTime"])));
-            $q->bindParam(":employeeid", $shiftDetails["employeeID"]);
+            $q->bindParam(":employeeid", $employeeID);
 
             if (!$q->execute()) {
                 throw new PDOException();
@@ -539,7 +693,7 @@ class Database
 
         try {
             $q = $this->connection->prepare("
-                SELECT r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
+                SELECT r.RepairID, r.Time, r.Duration, r.Description, r.Email, r.Status, r.Firstname, r.Lastname, r.DatePlaced
                 FROM repairs r
                 JOIN employee e on r.BranchID = e.BranchID
                 WHERE e.EmployeeID = :emplID;
@@ -670,5 +824,39 @@ class Database
             throw new PDOException("Error committing transaction.", 3);
         }
         return $employeeinfo;
+    }
+
+    function UpdateRepairStatus($rid, $status){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+
+        try {
+            $q = $this->connection->prepare("SELECT Status FROM repairs WHERE RepairID = :rID FOR UPDATE;");
+            $q->bindParam(":rID", $rid);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+
+            $q = $this->connection->prepare("UPDATE repairs SET Status = :status WHERE RepairID = :rID;");
+            $q->bindParam(":rID", $rid);
+            $q->bindParam(":status", $status);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+        } catch (PDOException $e) {
+            error_log("Error updating status.");
+            $this->connection->rollBack();
+            throw new PDOException("Error updating status.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
     }
 }

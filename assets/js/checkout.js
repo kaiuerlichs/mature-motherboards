@@ -1,7 +1,6 @@
 
-var cart = { '1': "1", 
-                  '2': "1", 
-                  '3': "4" }; //Replace with SQL Query of IDs from Cart
+var cart = { '1': "2"
+           }; //Replace with SQL Query of IDs from Cart
 
 var orderPlace =  {
     "orderDetails": {
@@ -64,7 +63,8 @@ const spanNumber = document.getElementById('totalNumber');
 
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', async function(event) {
+          event.preventDefault();
           if(document.getElementById("same-address").checked == true){
             document.getElementById("firstNameShipping").value = document.getElementById("firstName").value;
             document.getElementById("lastNameShipping").value = document.getElementById("lastName").value;
@@ -104,32 +104,36 @@ const spanNumber = document.getElementById('totalNumber');
                     orderPlace.products.push(key);
                 }
             }
-
-
-            fetch('./api/orders/CreateOrder.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderPlace),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-
-                })
-                .catch((error) => {
-
-                });
+            await uploadOrder(orderPlace);
+           
+            
           }
           form.classList.add('was-validated');
         }, false);
       });
-      console.log(validation);
+      
     }, false);
   })();
 
-
+async function uploadOrder(orderPlacing){
+  fetch('./api/orders/CreateOrder.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderPlacing),
+  })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data);
+          alert("The order has been place");
+          location.href = "index.html"
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("There has been an error with your order, please try again");
+      });
+}
 
 var onClick = (event) => {
     
@@ -145,7 +149,7 @@ var onClick = (event) => {
         spanNumber.textContent = totalNumber;
     }else{
         retrievedObject[id] = (Number(retrievedObject[id]) - 1).toString(); 
-        console.log(retrievedObject[id]);
+        
         document.getElementById("x"+id).innerText = "x" + retrievedObject[id];
         document.getElementById("£"+id).innerText =  "£"+ (Math.round((Number(document.getElementById("£"+id).innerText.replace("£", "")) - amount) * 100) / 100).toString();
     }
@@ -157,65 +161,65 @@ var onClick = (event) => {
 
 initializeCart();
 
+async function getProduct(key) {
+  return fetch('./api/products/GetProductById.php?id=' + key)
+      .then((response)=>response.json())
+      .then((responseJson)=>{return responseJson});
+}
 
-function initializeCart(){
+
+async function initializeCart(){
 
     for(var key in retrievedObject) {
-        let data = {
-            id: key
-        };
-        fetch('./api/products/GetProductById.php', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }, body: JSON.stringify(data),
-        }).then((response) => {
-            //let response = product1; //WHEN TEESTING UNCOMMENT THIS
-            let li = document.createElement('li');
-            li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
-            li.setAttribute('id', key);
-            let div = document.createElement('div');
+        let response = await getProduct(key);
+        //let response = product1; //WHEN TEESTING UNCOMMENT THIS
+        let li = document.createElement('li');
+        li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-condensed');
+        li.setAttribute('id', key);
+        let div = document.createElement('div');
+    
+        let h6 = document.createElement('h6');
+        h6.classList.add('my-0');
+        if(response["Name"].length > 17){
+          h6.style.fontSize = "12px";
+        }
+        h6.textContent = response["Name"];
+    
+        let small = document.createElement('small');
+        small.classList.add('text-muted');
+        small.textContent =  "x" +retrievedObject[key];
         
-            let h6 = document.createElement('h6');
-            h6.classList.add('my-0');
-            
-            h6.textContent = response["Name"];
+        small.setAttribute('id', "x"+key);
+        let span = document.createElement('span');
+        span.classList.add("text-muted");
+        span.textContent = "£" + Number(response["Price"]) * Number(retrievedObject[key]);
+        span.setAttribute('id', "£"+key);
+        let span2 = document.createElement('span');
+        span2.classList.add("text-danger");
+        span2.setAttribute('id', "~"+key);
+        span2.textContent = "remove";
+        span2.addEventListener('click', onClick);
+    
+        div.appendChild(h6);
+        div.appendChild(small);
+        li.appendChild(div);
+        li.appendChild(span2);
+        li.appendChild(span);
         
-            let small = document.createElement('small');
-            small.classList.add('text-muted');
-            small.textContent =  "x" +retrievedObject[key] ; 
-            small.setAttribute('id', "x"+key);
-            let span = document.createElement('span');
-            span.classList.add("text-muted");
-            span.textContent = "£" + Number(response["Price"]) * Number(retrievedObject[key]);
-            span.setAttribute('id', "£"+key);
-            let span2 = document.createElement('span');
-            span2.classList.add("text-danger");
-            span2.setAttribute('id', "~"+key);
-            span2.textContent = "remove";
-            span2.addEventListener('click', onClick);
+        ul.appendChild(li);
         
-            div.appendChild(h6);
-            div.appendChild(small);
-            li.appendChild(div);
-            li.appendChild(span2);
-            li.appendChild(span);
-            
-            ul.appendChild(li);
-            
+    
+        totalAmount +=  Number(response["Price"]) * Number(retrievedObject[key]);
+        totalNumber++;
+
+      
+    
         
-            totalAmount +=  Number(response["Price"]) * Number(retrievedObject[key]);
-            totalNumber++;
-        })
-            .catch((error) => {
-                console.log(error);
-        });
-        
-        
-    }   
-    spanNumber.textContent = totalNumber ;
+    } 
+    spanNumber.textContent = totalNumber;
     initializeTotal();
-    initialized = true;
+    initialized = true;   
+
 }
 
 function initializeTotal(){

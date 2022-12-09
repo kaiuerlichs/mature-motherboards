@@ -66,3 +66,12 @@ function logOut() {
             document.getElementById("logout").innerHTML = 'Log Out';
         });
 }
+
+fetch("./api/redirect.php")
+.then((response) => response.json())
+.then((data) => {
+
+if (data.code===201 && !window.location.toString().includes(data.redirectUrl.split("/")[1])){
+    window.location.href = data.redirectUrl;
+}
+})

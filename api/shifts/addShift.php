@@ -33,7 +33,7 @@ foreach($shiftKeys as $key){
     }
 }
 try {
-    $shiftNumber = $db->addShift($_POST);
+    $shiftNumber = $db->addShift($_POST["shiftDetails"], $_POST["employeeID"]);
     echo json_encode(array(
         "success" => "Shift added successfully.",
         "code" => 300,

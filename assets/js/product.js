@@ -13,29 +13,23 @@ function onClick() {
 
     for (let id in cart) {
         if (id == targetID) {
-            cart[id] = cart[id] + 1;
             alreadyInCart = true;
             console.log(cart[id]);
-            spinner.classList.remove("fa-spin")
-            document.getElementById("addToCart").innerHTML = 'Add To Cart';
-            document.getElementById("alert").classList.add("alert-danger");
-            document.getElementById("alert").innerHTML = "Already Added!";
-            document.getElementById("alert").removeAttribute("hidden");
+            spinner.classList.remove("fa-spin");
             break;
         }
     }
-    if (!alreadyInCart) {
+    if (!alreadyInCart) {   
         if (cart == null) {
             cart = {};
         }
         cart = Object.assign(cart, { [targetID]: 1 });
         spinner.classList.remove("fa-spin");
-        document.getElementById("addToCart").innerHTML = 'Add To Cart';
-        document.getElementById("alert").classList.add("alert-primary");
-        document.getElementById("alert").innerHTML = "Added Successfully!";
-        document.getElementById("alert").removeAttribute("hidden");
-
     }
+    document.getElementById("addToCart").innerHTML = 'Add To Cart';
+    document.getElementById("alert").classList.add("alert-primary");
+    document.getElementById("alert").innerHTML = "Added Successfully!";
+    document.getElementById("alert").removeAttribute("hidden");
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 

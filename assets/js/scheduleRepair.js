@@ -1,4 +1,5 @@
 function scheduleRepair() {
+    document.getElementById("repairButton").innerHTML = '<i class="fa-solid fa-gear fa-spin" id="spinner"></i>'
     //format of post request branchId, Time, Duration, Description, Email, firstname, lastname-->
     let fnameValue = document.getElementById("firstname").value;
     let lnameValue = document.getElementById("lastname").value;
@@ -25,14 +26,17 @@ function scheduleRepair() {
     })
         .then((response) => response.json())
         .then((data) => {
+            document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(data)
         })
         .catch((error) => {
+            document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(error);
         });
 }
 
 function scheduleRepairWithID() {
+    document.getElementById("repairButton").innerHTML = '<i class="fa-solid fa-gear fa-spin" id="spinner"></i>'
     //format of post request branchId, Time, Duration, Description, Email, firstname, lastname-->
     let fnameValue = document.getElementById("firstname").value;
     let lnameValue = document.getElementById("lastname").value;
@@ -61,9 +65,11 @@ function scheduleRepairWithID() {
     })
         .then((response) => response.json())
         .then((data) => {
+            document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(data)
         })
         .catch((error) => {
+            document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(error);
         });
 }
