@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://kit.fontawesome.com/2f2028059a.js" crossorigin="anonymous"></script>
     <title>Order - Mature Motherboards</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
         
       <div class="jumbotron jumbotron-fluid jumbotron-image"
             style="background-image: url(images/goldMotherboard.jpeg);">
-            <h1 class="text-center text-white fs-1 fw-bold">Your Order</h1>
+            <h1 class="text-center text-white fs-1 fw-bold">Order Receipt</h1>
       </div>
     </header>
 
@@ -29,6 +30,7 @@
     <p id="address3"></p>
     <p id="town"></p>
     <p id="dateOrdered"></p>
+    <p id="total"></p>
 
     <section>
 
@@ -39,6 +41,7 @@
 
     <section>
         <div>
+          <h2>Products:</h2>
             <div class="container-fluid mt-3" id="products">
                 <img class="card-img-top" src="" id="productImage" alt="Product Image"> 
                 <div class="card-body">
@@ -50,6 +53,9 @@
         </div>
 
     </section>
+    <div id="cog" class="row d-flex justify-content-center" style="font-size: 3rem;">
+      <i class="fa-solid fa-gear fa-spin"></i>
+    </div>
 
 </body>
 <script>
@@ -63,7 +69,7 @@ window.onload = function() {
     var pathArray = window.location.search.split('?');
     let idNumber = pathArray[1];
     
-    document.getElementById('shift').innerHTML = "";
+    document.getElementById('products').innerHTML = "";
     const productContainer = document.getElementById('products');
     let shiftSearch = document.getElementById('products').data;
 
@@ -71,8 +77,10 @@ window.onload = function() {
       .then((resp) => resp.json())
       .then(function(data) {
       console.log(data);
+      document.getElementById("cog").remove();
 
       //Gets data from the API and writes it to the HTML
+      document.getElementById('total').innerHTML = "Total: £" + data.charge;
       document.getElementById('address1').innerHTML = "Address: " + data.Address1;
       document.getElementById('address2').innerHTML = "" + data.Address2;
       document.getElementById('address3').innerHTML = "" + data.Address3;
@@ -80,12 +88,8 @@ window.onload = function() {
       document.getElementById('dateOrdered').innerHTML = "Date Ordered: " + data.DatePlaced;
 
       data.products.forEach(product => {
-        productContainer.innerHTML += "<img>" + product.Image + "</h5><h5>" + product.Name + "</p><p>" + product.Description + "</p><p>" + product.Charge
-        //console.log(product.Name)
-        //document.getElementById('productImage').src = product.Image;
-        //document.getElementById('name').innerHTML = product.Name;
-        //document.getElementById('description').innerHTML = "Description:" + product.Description;
-        //document.getElementById('charge').innerHTML = "Charge: " + product.Charge;
+        productContainer.innerHTML += '<img width="150px" src="' + product.Image + '">' + '<h3>' + product.Name + '</h3><p>£' + product.Price + '</p><br><br>'
+        
       });
       })
       .catch(function(error) {
