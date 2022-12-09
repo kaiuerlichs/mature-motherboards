@@ -44,7 +44,7 @@ function main() {
             })
               .then((response) => response.json())
               .then((data) => {
-                if(data["code"] == 0){
+                if (data["code"] == 0) {
                   document.getElementById("repair" + el.getAttribute("repairid")).innerHTML = selected
                 }
               })

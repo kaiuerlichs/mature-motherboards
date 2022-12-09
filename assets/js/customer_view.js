@@ -5,13 +5,13 @@ var productsSorted;
 let filter = document.getElementById("filter");
 filter.addEventListener('click', filterClick);
 
-function filterClick(){
+function filterClick() {
     let sortBy = document.getElementById("sortBy");
     let valueSortBy = sortBy.value;
     let type = document.getElementById("productType");
     let asc = true;
-    if(valueSortBy == 2) asc = false;
-    if(type.value != 0) displayProducts(productsSorted, asc, type.options[type.selectedIndex].text);
+    if (valueSortBy == 2) asc = false;
+    if (type.value != 0) displayProducts(productsSorted, asc, type.options[type.selectedIndex].text);
 }
 
 fetch('./api/products/GetProductsList.php', {
@@ -21,38 +21,38 @@ fetch('./api/products/GetProductsList.php', {
     }
 
 })
-.then((response) => response.json())
-.then((data) => {
-    document.getElementById("cog").remove();
-    displayProducts(data, false);
-    productsSorted = data.sort(function(a, b) {
-    var keyA = Number(a.Price),
-    keyB = Number(b.Price);
-    if (keyA < keyB) return -1;
-        if (keyA > keyB) return 1;
+    .then((response) => response.json())
+    .then((data) => {
+        document.getElementById("cog").remove();
+        displayProducts(data, false);
+        productsSorted = data.sort(function (a, b) {
+            var keyA = Number(a.Price),
+                keyB = Number(b.Price);
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
             return 0;
-      });
+        });
 
 
-})
+    })
     .catch((error) => {
         console.log(error);
-});
+    });
 
 
 
 
 
-function displayProducts(data, asc, type){
+function displayProducts(data, asc, type) {
     let cards = document.getElementById("containerCards");
     cards.innerHTML = "";
-    
+
     var onClick = (event) => {
-        window.location.href = 'product.html?'+event.target.id;
+        window.location.href = 'product.html?' + event.target.id;
     }
 
-    for(let i = (asc ? 0 : data.length-1); (asc ? i<data.length : i>=0); (asc ? i++: i--)){
-        if (type !== undefined && type != "Product Type" && type != data[i].Type){
+    for (let i = (asc ? 0 : data.length - 1); (asc ? i < data.length : i >= 0); (asc ? i++ : i--)) {
+        if (type !== undefined && type != "Product Type" && type != data[i].Type) {
             continue;
         }
         let div = document.createElement("div");
@@ -75,11 +75,11 @@ function displayProducts(data, asc, type){
         let title = document.createElement("h5");
         title.classList.add("card-title");
         title.innerText = data[i].Name;
-        title.setAttribute('id', data[i].ProductID+"!title");
+        title.setAttribute('id', data[i].ProductID + "!title");
         let price = document.createElement("h6");
         price.classList.add("card-subtitle", "mb-2", "text-muted");
-        price.innerText = "£"+data[i].Price;
-        
+        price.innerText = "£" + data[i].Price;
+
         let desc = document.createElement("p");
         desc.classList.add("card-text");
         desc.innerText = data[i].Type;
@@ -88,7 +88,7 @@ function displayProducts(data, asc, type){
         intoCart.classList.add("btn", "btn-primary", "mt-auto");
         intoCart.innerText = "Go to product"
         intoCart.addEventListener('click', onClick);
-        
+
         div2.appendChild(title);
         div2.appendChild(price);
         div2.appendChild(desc);

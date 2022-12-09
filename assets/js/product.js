@@ -19,7 +19,7 @@ function onClick() {
             break;
         }
     }
-    if (!alreadyInCart) {   
+    if (!alreadyInCart) {
         if (cart == null) {
             cart = {};
         }

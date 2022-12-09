@@ -9,15 +9,15 @@ function main() {
 
   fetch(url)
     .then((resp) => resp.json())
-    .then(function(value) {
-      
+    .then(function (value) {
+
       document.getElementById("spinnerShifts").remove()
 
-      value.map(function(shift) {
+      value.map(function (shift) {
         shiftContainer.innerHTML += "<tr><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"
       })
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
     });
 }

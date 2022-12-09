@@ -1,5 +1,5 @@
 function addProduct() {
-    document.getElementById("addProductButton").innerHTML='<i class="fa-solid fa-gear fa-spin"></i>'
+    document.getElementById("addProductButton").innerHTML = '<i class="fa-solid fa-gear fa-spin"></i>'
     let nameValue = document.getElementById("name").value
     let descValue = document.getElementById("description").value
     let typeValue = document.getElementById("type").value
@@ -38,17 +38,17 @@ function addProduct() {
     })
         .then((response) => response.json())
         .then((data) => {
-            document.getElementById("addProductButton").innerHTML='Submit'
+            document.getElementById("addProductButton").innerHTML = 'Submit'
             alert("Product added successfully!");
             console.log(response)
         })
         .catch((error) => {
-            document.getElementById("addProductButton").innerHTML='Submit'
+            document.getElementById("addProductButton").innerHTML = 'Submit'
             console.log(error);
         });
 }
 function addStock() {
-    document.getElementById("addStockButton").innerHTML='<i class="fa-solid fa-gear fa-spin"></i>'
+    document.getElementById("addStockButton").innerHTML = '<i class="fa-solid fa-gear fa-spin"></i>'
     let IDValue = document.getElementById("productID").value
     let quanValue = document.getElementById("quantity").value
 
@@ -68,11 +68,11 @@ function addStock() {
         .then((response) => response.json())
         .then((data) => {
             console.log(response)
-            document.getElementById("addStockButton").innerHTML='Submit'
+            document.getElementById("addStockButton").innerHTML = 'Submit'
             alert("Stock added successfully!");
         })
         .catch((error) => {
             console.log(error);
-            document.getElementById("addStockButton").innerHTML='Submit'
+            document.getElementById("addStockButton").innerHTML = 'Submit'
         });
 }

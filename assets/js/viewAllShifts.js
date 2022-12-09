@@ -1,9 +1,9 @@
 document.getElementById("selectEmployee").addEventListener("change", function () {
   Array.from(document.getElementsByClassName("shift")).forEach(el => {
-    if(el.getAttribute("employee") == this.value){
+    if (el.getAttribute("employee") == this.value) {
       el.classList.remove("d-none")
     }
-    else{
+    else {
       el.classList.add("d-none")
     }
   })
@@ -35,7 +35,7 @@ function main() {
       document.getElementById("disabledOptionAdd").innerHTML = "Please select..."
 
       value.map(function (shift) {
-        shiftContainer.innerHTML += "<tr class='d-none shift' employee='"+ shift.EmployeeID + "'><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"
+        shiftContainer.innerHTML += "<tr class='d-none shift' employee='" + shift.EmployeeID + "'><td>" + shift.Start + "</td><td>" + shift.End + "</td><tr>"
       })
     })
     .catch(function (error) {
