@@ -129,6 +129,7 @@ async function uploadOrder(orderPlacing) {
     .then((data) => {
       console.log(data);
       alert("Your order has been placed successfully!");
+      window.localStorage.removeItem('cart');
       location.href = "index.html"
     })
     .catch((error) => {
