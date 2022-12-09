@@ -2,8 +2,9 @@ function inputOrder() {
     //format of post request branchId, Time, Duration, Description, Email, firstname, lastname-->
     let email = document.getElementById("emailOrder").value;
     let productId = document.getElementById("productNo").value;
+    let charge = document.getElementById("charge").value;
 
-    const data = {"email" : email, "productID" : productId};
+    const data = {"email" : email, "productID" : productId, "charge": charge};
 
     fetch('./api/orders/InputOrder.php', {
         method: 'POST',
