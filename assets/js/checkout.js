@@ -165,6 +165,7 @@ async function getProduct(key) {
   return fetch('./api/products/GetProductById.php?id=' + key)
       .then((response)=>response.json())
       .then((responseJson)=>{return responseJson});
+        document.getElementById("checkoutCog").remove();
 }
 
 
@@ -227,7 +228,6 @@ async function initializeCart(){
     spanNumber.textContent = totalNumber;
     initializeTotal();
     initialized = true;   
-
 }
 
 function initializeTotal(){
