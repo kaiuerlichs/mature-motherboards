@@ -28,6 +28,7 @@ function scheduleRepair() {
         .then((data) => {
             document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(data)
+            alert("Repair scheduled successfully!");
         })
         .catch((error) => {
             document.getElementById("repairButton").innerHTML = 'Submit';
@@ -67,6 +68,7 @@ function scheduleRepairWithID() {
         .then((data) => {
             document.getElementById("repairButton").innerHTML = 'Submit';
             console.log(data)
+            alert("Repair scheduled successfully!");
         })
         .catch((error) => {
             document.getElementById("repairButton").innerHTML = 'Submit';

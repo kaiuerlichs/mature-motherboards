@@ -39,6 +39,7 @@ function addProduct() {
         .then((response) => response.json())
         .then((data) => {
             document.getElementById("addProductButton").innerHTML='Submit'
+            alert("Product added successfully!");
             console.log(response)
         })
         .catch((error) => {
@@ -68,6 +69,7 @@ function addStock() {
         .then((data) => {
             console.log(response)
             document.getElementById("addStockButton").innerHTML='Submit'
+            alert("Stock added successfully!");
         })
         .catch((error) => {
             console.log(error);

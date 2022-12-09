@@ -23,6 +23,7 @@ function addShift() {
         .then((data) => {
             document.getElementById("addShiftButton").innerHTML='Submit'
             console.log(response)
+            alert("Shift added successfully!");
         })
         .catch((error) => {
             document.getElementById("addShiftButton").innerHTML='Submit'

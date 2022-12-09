@@ -16,6 +16,7 @@ function inputOrder() {
         .then((response) => response.json())
         .then((data) => {
             console.log(data)
+            alert("Order added successfully!");
         })
         .catch((error) => {
             console.log(error);
