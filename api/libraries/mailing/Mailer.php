@@ -26,7 +26,7 @@ class Mailer
         $html = str_replace("!!FIRSTNAME", $firstname, $html);
         $html = str_replace("!!LASTNAME", $lastname, $html);
         $html = str_replace("!!ORDERNUM", $orderID, $html);
-        $html = str_replace("!!ORDERURL", "https://google.com", $html);
+        $html = str_replace("!!ORDERURL", "http://localhost:8000/order.html?" . $orderID, $html);
         $mail->msgHTML($html, __DIR__ . "/orderConfirmation");
 
         //Replace the plain text body with one created manually
@@ -54,7 +54,7 @@ class Mailer
         $html = str_replace("!!FIRSTNAME", $firstname, $html);
         $html = str_replace("!!LASTNAME", $lastname, $html);
         $html = str_replace("!!REPAIRNUM", $repairID, $html);
-        $html = str_replace("!!REPAIRURL", "https://google.com", $html);
+        $html = str_replace("!!REPAIRURL", "http://localhost:8000/repair.html?" . $orderID, $html);
         $mail->msgHTML($html, __DIR__ . "/repairConfirmation");
 
         //Replace the plain text body with one created manually
