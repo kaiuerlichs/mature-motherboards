@@ -116,6 +116,7 @@ const spanNumber = document.getElementById('totalNumber');
   })();
 
 async function uploadOrder(orderPlacing){
+  document.getElementById("cog").innerHTML = '<i class="fa-solid fa-gear fa-spin"></i>'
   fetch('./api/orders/CreateOrder.php', {
       method: 'POST',
       headers: {
@@ -132,6 +133,7 @@ async function uploadOrder(orderPlacing){
       .catch((error) => {
         console.log(error);
         alert("There has been an error with your order, please try again");
+        document.getElementById("cog").innerHTML = ''
       });
 }
 
