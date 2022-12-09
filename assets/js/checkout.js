@@ -199,6 +199,14 @@ async function initializeCart(){
         span2.setAttribute('id', "~"+key);
         span2.textContent = "remove";
         span2.addEventListener('click', onClick);
+        span2.addEventListener("mouseover", mOver, false);
+        span2.addEventListener("mouseout", mOut, false);
+        function mOver() {
+          span2.setAttribute("style", "cursor: pointer;")
+        }
+        function mOut() {  
+          span2.setAttribute("style", "cursor: auto;")
+        }
     
         div.appendChild(h6);
         div.appendChild(small);
