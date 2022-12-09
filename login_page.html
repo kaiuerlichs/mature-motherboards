@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2f2028059a.js" crossorigin="anonymous"></script>
 
     <title>Login - Mature Motherboards</title>
@@ -31,6 +33,14 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="about.html">About Us</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="checkout_page.html"><button class="btn btn-primary mr-2">Checkout   <i class="fa-solid fa-cart-shopping"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a href="login_page.html"><button class="btn btn-primary"disabled>Log In</button></a>
             </li>
           </ul>
         </div>
@@ -68,6 +78,14 @@
       
       
     </section>
+    <script>
+      input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("login").click();
+      }
+      });
+    </script>
     <script src="assets/js/login.js"></script>
 </body>
 </html>
