@@ -1,11 +1,11 @@
 function addShift() {
-    document.getElementById("addShiftButton").innerHTML='<i class="fa-solid fa-gear fa-spin"></i>'
+    document.getElementById("addShiftButton").innerHTML = '<i class="fa-solid fa-gear fa-spin"></i>'
     let empValue = document.getElementById("selectEmployeeAdd").value
     let startValue = document.getElementById("start").value.replace("T", " ")
     let endValue = document.getElementById("end").value.replace("T", " ")
     console.log(startValue)
     const data = {
-        "shiftDetails":{
+        "shiftDetails": {
             "startTime": startValue,
             "endTime": endValue
         },
@@ -21,12 +21,12 @@ function addShift() {
     })
         .then((response) => response.json())
         .then((data) => {
-            document.getElementById("addShiftButton").innerHTML='Submit'
+            document.getElementById("addShiftButton").innerHTML = 'Submit'
             console.log(response)
             alert("Shift added successfully!");
         })
         .catch((error) => {
-            document.getElementById("addShiftButton").innerHTML='Submit'
+            document.getElementById("addShiftButton").innerHTML = 'Submit'
             console.log(error);
         });
 }

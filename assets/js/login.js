@@ -36,11 +36,11 @@ function login() {
         });
 }
 function logOut() {
-    
+
     document.getElementById("logout").innerHTML = '<i class="fa-solid fa-gear" id="spinner"></i>'
     let spinner = document.getElementById("spinner")
     spinner.classList.add("fa-spin")
-    
+
     const data = {};
 
     fetch('./api/logout.php', {
@@ -68,10 +68,10 @@ function logOut() {
 }
 
 fetch("./api/redirect.php")
-.then((response) => response.json())
-.then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
 
-if (data.code===201 && !window.location.toString().includes(data.redirectUrl.split("/")[1])){
-    window.location.href = data.redirectUrl;
-}
-})
+        if (data.code === 201 && !window.location.toString().includes(data.redirectUrl.split("/")[1])) {
+            window.location.href = data.redirectUrl;
+        }
+    })

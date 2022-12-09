@@ -4,7 +4,7 @@ function inputOrder() {
     let productId = document.getElementById("productNo").value;
     let charge = document.getElementById("charge").value;
 
-    const data = {"email" : email, "productID" : productId, "charge": charge};
+    const data = { "email": email, "productID": productId, "charge": charge };
 
     fetch('./api/orders/InputOrder.php', {
         method: 'POST',
