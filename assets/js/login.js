@@ -71,7 +71,9 @@ fetch("./api/redirect.php")
 .then((response) => response.json())
 .then((data) => {
 
-if (data.code===201 && !window.location.toString().includes(data.redirectUrl.split("/")[1])){
-    window.location.href = data.redirectUrl;
-}
+    if (data.code===201 && !window.location.toString().includes(data.redirectUrl.split("/")[1])){
+        window.location.href = data.redirectUrl;
+    }else if (data.code===200 &&!window.location.toString().includes("login_page.html")){
+        window.location.href = "index.html";
+    }
 })
