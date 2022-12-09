@@ -27,7 +27,9 @@
     <!--REPAIR INFORMATION-->
 
     <h3 class="mt-3">Your repairs information:</h3>
+    <h3 id="name"><i class="fa-solid fa-gear fa-spin"></i></h3>
     <p id="repairNo">Repair Number: <i class="fa-solid fa-gear fa-spin"></i></p>
+    <p id="description">Description <i class="fa-solid fa-gear fa-spin"></i></p>
     <p id="stage">Repair Stage: <i class="fa-solid fa-gear fa-spin"></i></p>
 
     <section>
@@ -49,14 +51,25 @@
     function main() {
         var pathArray = window.location.search.split('?');
         let idNumber = pathArray[1];
+        let status = "";
         fetch('./api/repairs/GetRepairById.php?id=' + idNumber)
         .then((resp) => resp.json())
         .then(function(value) {
             console.log(value);
+
+            if (value.Status == 0) {
+                status = "Scheduled";
+            } else if (value.Status == 1) {
+                status = "In Progress";
+            } else {
+                status = "Complete"
+            }
     
             //Gets value from the API and writes it to the HTML
+            document.getElementById('name').innerHTML = value.FirstName;
             document.getElementById('repairNo').innerHTML = "Repair Number: " + value.RepairID;
-            document.getElementById('stage').innerHTML = "Repair Stage: " + value.Status;
+            document.getElementById('description').innerHTML = "Description: " + value.Description;
+            document.getElementById('stage').innerHTML = "Repair Status: " + status;
         })
         .catch(function(error) {
             console.log(error);
