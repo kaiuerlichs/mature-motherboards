@@ -859,4 +859,37 @@ class Database
             throw new PDOException("Error committing transaction.", 3);
         }
     }
+    function IncreaseStock($stock, $prodID){
+        // Start new transaction
+        if (!$this->connection->beginTransaction()) {
+            error_log("Error starting transaction.");
+            throw new PDOException("Error starting transaction.", 1);
+        }
+        try {
+            $q = $this->connection->prepare("SELECT Stock FROM product WHERE ProductID = :prodID FOR UPDATE;");
+            $q->bindParam(":prodID", $prodID);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+            $q = $this->connection->prepare("UPDATE product SET Stock = Stock + :stock WHERE ProductID = :prodID;");
+            $q->bindParam(":prodID", $prodID);
+            $q->bindParam(":stock", $stock);
+            if (!$q->execute()) {
+                throw new PDOException();
+            }
+        } catch (PDOException $e) {
+            error_log($e);
+            error_log("Error updating status.");
+            $this->connection->rollBack();
+            throw new PDOException("Error updating status.", 3);
+        }
+
+        // Commit transaction
+        if (!$this->connection->commit()) {
+            error_log("Error committing transaction.");
+            $this->connection->rollBack();
+            throw new PDOException("Error committing transaction.", 3);
+        }
+        return $prodID;
+    }
 }
