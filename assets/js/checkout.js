@@ -126,7 +126,7 @@ async function uploadOrder(orderPlacing){
       .then((response) => response.json())
       .then((data) => {
           console.log(data);
-          alert("The order has been place");
+          alert("Your order has been placed successfully!");
           location.href = "index.html"
       })
       .catch((error) => {
