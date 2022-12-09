@@ -267,4 +267,6 @@ function checkBoxShipping() {
     }
   } 
 
-
+  function showAlert() {
+    alert('Your order has been confrimed :)');
+  }
